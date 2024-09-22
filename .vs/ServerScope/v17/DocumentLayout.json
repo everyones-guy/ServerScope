@@ -1,7 +1,16 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "C:\\Users\\Gary\\source\\repos\\everyones-guy\\ServerScope\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{020AF124-05D7-46FF-BBD9-91A1D728D482}|ServerScope.pyproj|C:\\Users\\Gary\\Source\\Repos\\everyones-guy\\ServerScope\\ServerScope\\app\\models.py||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{020AF124-05D7-46FF-BBD9-91A1D728D482}|ServerScope.pyproj|solutionrelative:ServerScope\\app\\models.py||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{020AF124-05D7-46FF-BBD9-91A1D728D482}|ServerScope.pyproj|C:\\Users\\Gary\\Source\\Repos\\everyones-guy\\ServerScope\\ServerScope\\app\\auth.py||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{020AF124-05D7-46FF-BBD9-91A1D728D482}|ServerScope.pyproj|solutionrelative:ServerScope\\app\\auth.py||{8B382828-6202-11D1-8870-0000F87579D2}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,8 +18,34 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 0,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "models.py",
+              "DocumentMoniker": "C:\\Users\\Gary\\source\\repos\\everyones-guy\\ServerScope\\ServerScope\\app\\models.py",
+              "RelativeDocumentMoniker": "ServerScope\\app\\models.py",
+              "ToolTip": "C:\\Users\\Gary\\source\\repos\\everyones-guy\\ServerScope\\ServerScope\\app\\models.py",
+              "RelativeToolTip": "ServerScope\\app\\models.py",
+              "ViewState": "AQIAAAkAAAAAAAAAAAAAABcAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2024-09-22T21:02:23.307Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "auth.py",
+              "DocumentMoniker": "C:\\Users\\Gary\\source\\repos\\everyones-guy\\ServerScope\\ServerScope\\app\\auth.py",
+              "RelativeDocumentMoniker": "ServerScope\\app\\auth.py",
+              "ToolTip": "C:\\Users\\Gary\\source\\repos\\everyones-guy\\ServerScope\\ServerScope\\app\\auth.py",
+              "RelativeToolTip": "ServerScope\\app\\auth.py",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2024-09-22T07:06:04.846Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{1c64b9c2-e352-428e-a56d-0ace190b99a6}"

@@ -84,9 +84,9 @@ def server_health(server_id):
     health_output = CommandExecutor.get_server_health(server.ip, server.username, server.password)
     return render_template('server_health.html', server=server, health_output=health_output)
 
-@main.route('/server/<int:server_id>/health')
-@role_required('admin')  # Restrict access to admins or specific roles
-def server_health(server_id):
-    server = Server.query.get_or_404(server_id)
-    health_output = CommandExecutor.get_server_health(server.ip, server.username, server.password)
-    return render_template('server_health.html', server=server, health_output=health_output)
+# routes.py
+@main.route('/audit_logs')
+@role_required('admin')  # Only admins can view logs
+def audit_logs():
+    logs = AuditLog.query.all()
+    return render_template('audit_logs.html', logs=logs)

@@ -22,10 +22,9 @@ class ScanReport(db.Model):
     new_machines_count = db.Column(db.Integer, nullable=False)
 
 class AuditLog(db.Model):
-    __tablename__ = 'audit_logs'
     id = db.Column(db.Integer, primary_key=True)
     action = db.Column(db.String(255), nullable=False)
-    username = db.Column(db.String(50), nullable=False)
+    username = db.Column(db.String(80), nullable=False)
     timestamp = db.Column(db.DateTime, default=datetime.utcnow)
 
 class User(db.Model, UserMixin):
