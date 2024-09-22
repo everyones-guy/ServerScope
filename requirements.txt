@@ -1,0 +1,15 @@
+Flask==2.3.2
+Flask-SQLAlchemy==3.0.5
+Flask-Migrate==4.0.4
+Flask-Login==0.6.2
+python-dotenv==1.0.0
+psycopg2-binary==2.9.7  # Only if you're using PostgreSQL
+cx_Oracle==8.3.0  # Only if you're using Oracle DB
+PyMySQL==1.1.0  # Only if you're using MySQL
+gunicorn==21.2.0  # For production WSGI server (optional for deployment)
+requests==2.31.0  # For making HTTP requests, useful for Splunk API integration
+nmap==0.0.22  # For network scanning
+paramiko==3.1.0  # For SSH connections to servers
+winrm==0.4.3  # For Windows Remote Management (WinRM) commands
+Jinja2==3.1.2  # Template rendering engine, usually bundled with Flask
+cryptography==41.0.3  # Used by paramiko for SSH encryption

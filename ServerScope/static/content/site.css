@@ -1,0 +1,151 @@
+/* General body styling */
+body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+    background-color: #f5f5f5;
+    font-family: Arial, sans-serif;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Set width on the form input elements since they're 100% wide by default in Bootstrap */
+input,
+select,
+textarea {
+    max-width: 280px;
+    margin-bottom: 10px;
+}
+
+/* Enhanced form input for large screens (using Bootstrap form-control class) */
+@media (min-width: 768px) {
+    input,
+    select,
+    textarea {
+        max-width: 400px;
+    }
+}
+
+/* Bootstrap enhancements for validation feedback */
+.field-validation-error {
+    color: #b94a48;
+    font-weight: bold;
+}
+
+.field-validation-valid {
+    display: none;
+}
+
+input.input-validation-error {
+    border: 1px solid #b94a48;
+    border-radius: 4px;
+}
+
+input[type="checkbox"].input-validation-error {
+    border: 0 none;
+}
+
+.validation-summary-errors {
+    color: #b94a48;
+    font-weight: bold;
+}
+
+.validation-summary-valid {
+    display: none;
+}
+
+/* Button enhancements */
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+        border-color: #004085;
+    }
+
+.btn-secondary {
+    background-color: #6c757d;
+    border-color: #6c757d;
+}
+
+    .btn-secondary:hover {
+        background-color: #545b62;
+        border-color: #4e555b;
+    }
+
+/* Custom table styling */
+.table {
+    margin-top: 20px;
+}
+
+    .table th {
+        background-color: #f8f9fa;
+    }
+
+.table-hover tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Jumbotron custom styles */
+.jumbotron {
+    background-color: #e9ecef;
+    padding: 2rem 1rem;
+    border-radius: 0.3rem;
+}
+
+    .jumbotron h1 {
+        font-size: 2.5rem;
+        color: #333;
+    }
+
+    .jumbotron .btn-primary {
+        background-color: #28a745;
+        border-color: #28a745;
+    }
+
+/* Form styling */
+.form-control {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    font-weight: bold;
+}
+
+/* Custom footer styles (if any footer is added) */
+footer {
+    padding: 20px;
+    background-color: #333;
+    color: white;
+    text-align: center;
+}
+
+    footer a {
+        color: #007bff;
+    }
+
+        footer a:hover {
+            color: #0056b3;
+        }
+
+/* Override navbar colors */
+.navbar-dark .navbar-nav .nav-link {
+    color: #f8f9fa;
+}
+
+    .navbar-dark .navbar-nav .nav-link:hover {
+        color: #d4d8dd;
+    }
+
+/* Custom pre block styling for logs and results */
+pre {
+    background-color: #f8f9fa;
+    border: 1px solid #ccc;
+    padding: 10px;
+    overflow-x: auto;
+}

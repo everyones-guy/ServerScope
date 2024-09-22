@@ -1,0 +1,40 @@
+{% extends "layout.html" %}
+
+{% block title %}Scan Results{% endblock %}
+
+{% block content %}
+<h1>Network Scan Results</h1>
+
+<div class="alert alert-info">
+    <p>Total Machines Scanned: <strong>{{ report.total_machines_scanned }}</strong></p>
+    <p>Existing Machines: <strong>{{ report.existing_machines_count }}</strong></p>
+    <p>New Machines: <strong>{{ report.new_machines_count }}</strong></p>
+</div>
+
+    {% if new_machines %}
+<h2>New Machines Discovered</h2>
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>IP Address</th>
+            <th>Operating System</th>
+            <th>Port</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for machine in new_machines %}
+        <tr>
+            <td>{{ machine.ip }}</td>
+            <td>{{ machine.os }}</td>
+            <td>{{ machine.port }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+    {% else %}
+<div class="alert alert-warning">No new machines were discovered.</div>
+    {% endif %}
+
+<a href="{{ url_for('main.view_scan_reports') }}" class="btn btn-primary">View Past Scan Reports</a>
+<a href="{{ url_for('main.view_servers') }}" class="btn btn-secondary">Back to Server List</a>
+{% endblock %}

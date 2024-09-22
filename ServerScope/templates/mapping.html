@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+
+{% block title %}Mapping{% endblock %}
+
+{% block content %}
+<h1>Server Mappings</h1>
+
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>Source</th>
+            <th>Destination</th>
+            <th>Protocol</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for mapping in mappings %}
+        <tr>
+            <td>{{ mapping.source }}</td>
+            <td>{{ mapping.destination }}</td>
+            <td>{{ mapping.protocol }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<a href="{{ url_for('main.view_servers') }}" class="btn btn-secondary">Back to Server List</a>
+{% endblock %}

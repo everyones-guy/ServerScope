@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+
+{% block title %}Splunk Configuration{% endblock %}
+
+{% block content %}
+<h1>Configure Splunk</h1>
+
+<form action="{{ url_for('main.update_splunk_config') }}" method="POST" class="form">
+    <div class="form-group">
+        <label for="server_url">Splunk Server URL:</label>
+        <input type="text" id="server_url" name="server_url" class="form-control" required>
+    </div>
+    <div class="form-group">
+        <label for="auth_token">Splunk Auth Token:</label>
+        <input type="text" id="auth_token" name="auth_token" class="form-control" required>
+    </div>
+    <button type="submit" class="btn btn-success">Update Configuration</button>
+</form>
+
+<a href="{{ url_for('main.view_servers') }}" class="btn btn-secondary mt-3">Back to Server List</a>
+{% endblock %}

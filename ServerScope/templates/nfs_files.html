@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+
+{% block title %}NFS Files{% endblock %}
+
+{% block content %}
+<h1>NFS Files</h1>
+
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>File Path</th>
+            <th>Size</th>
+            <th>Owner</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for file in nfs_files %}
+        <tr>
+            <td>{{ file.path }}</td>
+            <td>{{ file.size }}</td>
+            <td>{{ file.owner }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<a href="{{ url_for('main.view_servers') }}" class="btn btn-secondary">Back to Server List</a>
+{% endblock %}
