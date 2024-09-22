@@ -161,3 +161,4 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 /.vs/ServerScope/FileContentIndex/e193afd1-7e8c-4e43-8b06-16ee334dc6ca.vsidx
+/.vs/ServerScope/FileContentIndex
