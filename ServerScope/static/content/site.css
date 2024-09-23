@@ -103,6 +103,10 @@ input[type="checkbox"].input-validation-error {
         border-color: #4e555b;
     }
 
+.btn-group {
+    margin-top: 10px;
+}
+
 /* Custom table styling */
 .table {
     margin-top: 20px;

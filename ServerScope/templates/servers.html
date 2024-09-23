@@ -1,44 +1,53 @@
-{% extends "layout.html" %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}ServerScope{% endblock %}</title>
 
-{% block title %}Network Scan Results{% endblock %}
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='content/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='content/site.css') }}">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="{{ url_for('main.index') }}">ServerScope</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('main.view_servers') }}">Servers</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('main.scan_network') }}">Scan Network</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('main.view_scan_reports') }}">Scan Reports</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('main.audit_logs') }}">Audit Logs</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('main.about') }}">About</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link btn btn-light" href="{{ url_for('auth.logout') }}">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
 
-{% block content %}
-<h1>Network Scan Results</h1>
+    <div class="container mt-4">
+        {% block content %}
+        {% endblock %}
+    </div>
 
-    {% if report %}
-<div class="alert alert-info">
-    <p>Total Machines Scanned: <strong>{{ report.total_machines_scanned }}</strong></p>
-    <p>Existing Machines: <strong>{{ report.existing_machines_count }}</strong></p>
-    <p>New Machines: <strong>{{ report.new_machines_count }}</strong></p>
-</div>
-    {% else %}
-<div class="alert alert-danger">No scan report available.</div>
-    {% endif %}
-
-    {% if new_machines and new_machines|length > 0 %}
-<h2>New Machines Discovered</h2>
-<table class="table table-bordered table-hover">
-    <thead>
-        <tr>
-            <th>IP Address</th>
-            <th>Operating System</th>
-            <th>Port</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for machine in new_machines %}
-        <tr>
-            <td>{{ machine.ip }}</td>
-            <td>{{ machine.os }}</td>
-            <td>{{ machine.port }}</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
-    {% else %}
-<div class="alert alert-warning">No new machines were discovered.</div>
-    {% endif %}
-
-<a href="{{ url_for('main.view_scan_reports') }}" class="btn btn-primary">View Past Scan Reports</a>
-<a href="{{ url_for('main.view_servers') }}" class="btn btn-secondary">Back to Server List</a>
-{% endblock %}
+    <!-- jQuery and Bootstrap JS -->
+    <script src="{{ url_for('static', filename='scripts/jquery-1.10.2.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='scripts/bootstrap.min.js') }}"></script>
+</body>
+</html>

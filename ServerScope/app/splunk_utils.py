@@ -1,15 +1,13 @@
 import requests
 import os
 import json
-from app.models import SplunkConfig
+from app.models import SplunkConfig, SplunkAnalysis
 from datetime import datetime
 from app import db
-
 from flask import render_template, flash, redirect, url_for
-from sqlalchemy import create_engine, MetaData, Table, Column, Integer, String, Text, DateTime
+from sqlalchemy import create_engine, MetaData, Table, Column, Integer, Text, DateTime
 from sqlalchemy.exc import OperationalError
-from datetime import datetime
-from app import db
+
 
 class SplunkUtils:
     def __init__(self):
@@ -88,7 +86,7 @@ class SplunkUtils:
 
         return summary
 
-def check_db_connection(self):
+    def check_db_connection(self):
         """
         Check if there is an active connection to the database.
         - Returns: True if the connection is active, False otherwise.
@@ -99,57 +97,57 @@ def check_db_connection(self):
         except OperationalError:
             return False
 
-def create_db(self):
-    """
-    Automatically create the database and table schema if needed.
-    """
-    try:
-        engine = create_engine('sqlite:///splunk_analysis.db')  # Replace with your DB connection string
-        meta = MetaData()
+    def create_db(self):
+        """
+        Automatically create the database and table schema if needed.
+        """
+        try:
+            engine = create_engine('sqlite:///splunk_analysis.db')  # Replace with your DB connection string
+            meta = MetaData()
 
-        # Define the SplunkAnalysis table
-        splunk_analysis = Table(
-            'splunk_analysis', meta,
-            Column('id', Integer, primary_key=True),
-            Column('created_at', DateTime, default=datetime.utcnow),
-            Column('error_logs', Text),
-            Column('warning_logs', Text),
-            Column('info_logs', Text)
-        )
-            
-        meta.create_all(engine)
-        print("Database and table created successfully.")
+            # Define the SplunkAnalysis table
+            splunk_analysis = Table(
+                'splunk_analysis', meta,
+                Column('id', Integer, primary_key=True),
+                Column('created_at', DateTime, default=datetime.utcnow),
+                Column('error_logs', Text),
+                Column('warning_logs', Text),
+                Column('info_logs', Text)
+            )
+                
+            meta.create_all(engine)
+            print("Database and table created successfully.")
 
-    except Exception as e:
-        raise Exception(f"Failed to create the database: {e}")
+        except Exception as e:
+            raise Exception(f"Failed to create the database: {e}")
 
-def save_analysis_to_db(self, analysis_data):
-    """
-    Save the log analysis data into a local database for historical tracking.
-    - analysis_data: A dictionary containing errors, warnings, and info logs.
-    """
-    try:
-        # Check if a database connection is active
-        if not self.check_db_connection():
-            flash("No active database connection found. Please set up a database.", "danger")
-            return redirect(url_for('main.setup_database'))
+    def save_analysis_to_db(self, analysis_data):
+        """
+        Save the log analysis data into a local database for historical tracking.
+        - analysis_data: A dictionary containing errors, warnings, and info logs.
+        """
+        try:
+            # Check if a database connection is active
+            if not self.check_db_connection():
+                flash("No active database connection found. Please set up a database.", "danger")
+                return redirect(url_for('main.setup_database'))
 
-        # Save the analysis data to the database
-        error_logs = "\n".join(analysis_data['errors'])
-        warning_logs = "\n".join(analysis_data['warnings'])
-        info_logs = "\n".join(analysis_data['info'])
+            # Save the analysis data to the database
+            error_logs = "\n".join(analysis_data['errors'])
+            warning_logs = "\n".join(analysis_data['warnings'])
+            info_logs = "\n".join(analysis_data['info'])
 
-        analysis = SplunkAnalysis(
-            created_at=datetime.utcnow(),
-            error_logs=error_logs,
-            warning_logs=warning_logs,
-            info_logs=info_logs
-        )
-        db.session.add(analysis)
-        db.session.commit()
+            analysis = SplunkAnalysis(
+                created_at=datetime.utcnow(),
+                error_logs=error_logs,
+                warning_logs=warning_logs,
+                info_logs=info_logs
+            )
+            db.session.add(analysis)
+            db.session.commit()
 
-        flash("Analysis data saved successfully.", "success")
-    except Exception as e:
+            flash("Analysis data saved successfully.", "success")
+        except Exception as e:
             raise Exception(f"Failed to save analysis data to the database: {e}")
 
     def list_splunk_jobs(self):
@@ -197,4 +195,3 @@ def save_analysis_to_db(self, analysis_data):
         search_query = "*"
         logs = self.query_splunk(search_query, earliest, latest)
         return logs['results']
-
