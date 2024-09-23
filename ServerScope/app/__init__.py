@@ -1,43 +1,155 @@
-import os
-from flask import Flask
+from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
-from flask_migrate import Migrate
-from dotenv import load_dotenv
+from flask_login import UserMixin
+from werkzeug.security import generate_password_hash, check_password_hash
 
-# Load environment variables from .env file
-load_dotenv()
-
-# Initialize extensions globally
 db = SQLAlchemy()
-migrate = Migrate()
 
-def create_app():
-    """Factory function to create and configure the Flask app."""
-    app = Flask(__name__)
+# User Model
+class User(db.Model, UserMixin):
+    __tablename__ = 'users'
+    
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(80), unique=True, nullable=False)
+    email = db.Column(db.String(120), unique=True, nullable=False)
+    password_hash = db.Column(db.String(128), nullable=False)
+    role = db.Column(db.String(50), nullable=False, default='user')  # e.g., 'admin', 'user'
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
-    # Database configuration: Oracle, with fallback to SQLite
-    db_type = os.getenv('DB_TYPE', 'sqlite')
-    if db_type == 'oracle':
-        oracle_user = os.getenv('ORACLE_USER')
-        oracle_password = os.getenv('ORACLE_PASSWORD')
-        oracle_dsn = os.getenv('ORACLE_DSN')  # Oracle Data Source Name
-        
-        if not all([oracle_user, oracle_password, oracle_dsn]):
-            raise RuntimeError("Missing Oracle DB configuration. Please set ORACLE_USER, ORACLE_PASSWORD, and ORACLE_DSN.")
-        
-        app.config['SQLALCHEMY_DATABASE_URI'] = f'oracle+cx_oracle://{oracle_user}:{oracle_password}@{oracle_dsn}'
-    else:
-        app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///serverscope.db'
+    def set_password(self, password):
+        """Hashes the provided password and stores it."""
+        self.password_hash = generate_password_hash(password)
+    
+    def check_password(self, password):
+        """Checks the password against the stored hash."""
+        return check_password_hash(self.password_hash, password)
 
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    def has_role(self, role):
+        """Checks if the user has a specific role."""
+        return self.role == role
 
-    # Initialize extensions with app
-    db.init_app(app)
-    migrate.init_app(app, db)
+    @staticmethod
+    def create_user(username, email, password, role='user'):
+        """Utility method to create a new user."""
+        new_user = User(username=username, email=email)
+        new_user.set_password(password)
+        new_user.role = role
+        db.session.add(new_user)
+        db.session.commit()
 
-    # Import and register blueprints/routes
-    from app.routes import main, nfs_bp
-    app.register_blueprint(main)
-    app.register_blueprint(nfs_bp, url_prefix='/nfs')
+    def __repr__(self):
+        return f'<User {self.username}>'
 
-    return app
+# AuditLog Model for tracking user actions
+class AuditLog(db.Model):
+    __tablename__ = 'audit_logs'
+
+    id = db.Column(db.Integer, primary_key=True)
+    action = db.Column(db.String(255), nullable=False)
+    username = db.Column(db.String(80), nullable=False)
+    timestamp = db.Column(db.DateTime, default=datetime.utcnow)
+
+    def __repr__(self):
+        return f'<AuditLog {self.id} - {self.action} by {self.username}>'
+
+# Server Model for storing server information
+class Server(db.Model):
+    __tablename__ = 'servers'
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
+    ip_address = db.Column(db.String(45), nullable=False)  # To support IPv4 and IPv6
+    username = db.Column(db.String(80), nullable=False)
+    password_hash = db.Column(db.String(128), nullable=False)  # Store securely
+    os_type = db.Column(db.String(50), nullable=False)  # e.g., 'Linux', 'Windows'
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    last_health_check = db.Column(db.DateTime)
+    status = db.Column(db.String(50), nullable=True)  # 'Healthy', 'Warning', 'Critical', etc.
+
+    def set_password(self, password):
+        """Set a hashed password for SSH/WinRM credentials."""
+        self.password_hash = generate_password_hash(password)
+
+    def check_password(self, password):
+        """Check the hashed password."""
+        return check_password_hash(self.password_hash, password)
+
+    def __repr__(self):
+        return f'<Server {self.name} - {self.ip_address}>'
+
+# Job Model for scheduled jobs (e.g., backups, health checks)
+class Job(db.Model):
+    __tablename__ = 'jobs'
+
+    id = db.Column(db.Integer, primary_key=True)
+    job_type = db.Column(db.String(100), nullable=False)  # 'backup', 'health_check', etc.
+    server_id = db.Column(db.Integer, db.ForeignKey('servers.id'), nullable=False)
+    status = db.Column(db.String(50), nullable=False)  # 'Pending', 'Running', 'Completed', 'Failed'
+    schedule_time = db.Column(db.DateTime, nullable=False)
+    executed_at = db.Column(db.DateTime, nullable=True)
+    result = db.Column(db.Text, nullable=True)  # Store result logs or output
+
+    server = db.relationship('Server', backref='jobs')
+
+    __table_args__ = (db.Index('idx_server_schedule', 'server_id', 'schedule_time'),)
+
+    def __repr__(self):
+        return f'<Job {self.id} - {self.job_type} on Server {self.server_id}>'
+
+# Splunk Config Model for storing Splunk integration details
+class SplunkConfig(db.Model):
+    __tablename__ = 'splunk_configs'
+
+    id = db.Column(db.Integer, primary_key=True)
+    server_url = db.Column(db.String(255), nullable=False)
+    auth_token = db.Column(db.String(255), nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+    def __repr__(self):
+        return f'<SplunkConfig {self.server_url}>'
+
+# NFS Files Model for storing details of NFS shared files
+class NFSFile(db.Model):
+    __tablename__ = 'nfs_files'
+
+    id = db.Column(db.Integer, primary_key=True)
+    server_id = db.Column(db.Integer, db.ForeignKey('servers.id'), nullable=False)
+    file_path = db.Column(db.String(255), nullable=False)
+    size = db.Column(db.String(50), nullable=False)
+    owner = db.Column(db.String(80), nullable=False)
+
+    server = db.relationship('Server', backref='nfs_files')
+
+    def __repr__(self):
+        return f'<NFSFile {self.file_path} on Server {self.server_id}>'
+
+# Tagging Model for server grouping and tagging
+class Tag(db.Model):
+    __tablename__ = 'tags'
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False, unique=True)
+    description = db.Column(db.String(255), nullable=True)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+    def __repr__(self):
+        return f'<Tag {self.name}>'
+
+# Many-to-many relationship between Servers and Tags
+server_tags = db.Table('server_tags',
+    db.Column('server_id', db.Integer, db.ForeignKey('servers.id'), primary_key=True),
+    db.Column('tag_id', db.Integer, db.ForeignKey('tags.id'), primary_key=True)
+)
+
+# Network Scan Results Model
+class NetworkScanResult(db.Model):
+    __tablename__ = 'network_scan_results'
+
+    id = db.Column(db.Integer, primary_key=True)
+    scan_time = db.Column(db.DateTime, default=datetime.utcnow)
+    total_machines_scanned = db.Column(db.Integer, nullable=False)
+    existing_machines_count = db.Column(db.Integer, nullable=False)
+    new_machines_count = db.Column(db.Integer, nullable=False)
+
+    def __repr__(self):
+        return f'<NetworkScanResult {self.scan_time} - {self.total_machines_scanned} Machines>'

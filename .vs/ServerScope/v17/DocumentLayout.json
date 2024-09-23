@@ -3,6 +3,14 @@
   "WorkspaceRootPath": "C:\\Users\\Gary\\source\\repos\\everyones-guy\\ServerScope\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{020AF124-05D7-46FF-BBD9-91A1D728D482}|ServerScope.pyproj|C:\\Users\\Gary\\Source\\Repos\\everyones-guy\\ServerScope\\ServerScope\\app\\splunk_utils.py||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{020AF124-05D7-46FF-BBD9-91A1D728D482}|ServerScope.pyproj|solutionrelative:ServerScope\\app\\splunk_utils.py||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{020AF124-05D7-46FF-BBD9-91A1D728D482}|ServerScope.pyproj|C:\\Users\\Gary\\source\\repos\\everyones-guy\\ServerScope\\ServerScope\\app\\auth.py||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{020AF124-05D7-46FF-BBD9-91A1D728D482}|ServerScope.pyproj|solutionrelative:ServerScope\\app\\auth.py||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{020AF124-05D7-46FF-BBD9-91A1D728D482}|ServerScope.pyproj|C:\\Users\\Gary\\Source\\Repos\\everyones-guy\\ServerScope\\ServerScope\\static\\content\\site.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
       "RelativeMoniker": "D:0:0:{020AF124-05D7-46FF-BBD9-91A1D728D482}|ServerScope.pyproj|solutionrelative:ServerScope\\static\\content\\site.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
     },
@@ -79,14 +87,6 @@
       "RelativeMoniker": "D:0:0:{020AF124-05D7-46FF-BBD9-91A1D728D482}|ServerScope.pyproj|solutionrelative:ServerScope\\migrations\\versions\\import_ansible_data.py||{8B382828-6202-11D1-8870-0000F87579D2}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{020AF124-05D7-46FF-BBD9-91A1D728D482}|ServerScope.pyproj|C:\\Users\\Gary\\source\\repos\\everyones-guy\\ServerScope\\ServerScope\\app\\auth.py||{8B382828-6202-11D1-8870-0000F87579D2}",
-      "RelativeMoniker": "D:0:0:{020AF124-05D7-46FF-BBD9-91A1D728D482}|ServerScope.pyproj|solutionrelative:ServerScope\\app\\auth.py||{8B382828-6202-11D1-8870-0000F87579D2}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{020AF124-05D7-46FF-BBD9-91A1D728D482}|ServerScope.pyproj|C:\\Users\\Gary\\Source\\Repos\\everyones-guy\\ServerScope\\ServerScope\\app\\splunk_utils.py||{8B382828-6202-11D1-8870-0000F87579D2}",
-      "RelativeMoniker": "D:0:0:{020AF124-05D7-46FF-BBD9-91A1D728D482}|ServerScope.pyproj|solutionrelative:ServerScope\\app\\splunk_utils.py||{8B382828-6202-11D1-8870-0000F87579D2}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{020AF124-05D7-46FF-BBD9-91A1D728D482}|ServerScope.pyproj|C:\\Users\\Gary\\Source\\Repos\\everyones-guy\\ServerScope\\ServerScope\\app\\scheduler.py||{8B382828-6202-11D1-8870-0000F87579D2}",
       "RelativeMoniker": "D:0:0:{020AF124-05D7-46FF-BBD9-91A1D728D482}|ServerScope.pyproj|solutionrelative:ServerScope\\app\\scheduler.py||{8B382828-6202-11D1-8870-0000F87579D2}"
     },
@@ -122,7 +122,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 15,
           "Children": [
             {
               "$type": "Bookmark",
@@ -138,59 +138,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "site.css",
-              "DocumentMoniker": "C:\\Users\\Gary\\source\\repos\\everyones-guy\\ServerScope\\ServerScope\\static\\content\\site.css",
-              "RelativeDocumentMoniker": "ServerScope\\static\\content\\site.css",
-              "ToolTip": "C:\\Users\\Gary\\source\\repos\\everyones-guy\\ServerScope\\ServerScope\\static\\content\\site.css",
-              "RelativeToolTip": "ServerScope\\static\\content\\site.css",
-              "ViewState": "AQIAAFEAAAAAAAAAAAAAAGwAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
-              "WhenOpened": "2024-09-23T16:06:44.646Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "layout.html",
-              "DocumentMoniker": "C:\\Users\\Gary\\source\\repos\\everyones-guy\\ServerScope\\ServerScope\\templates\\layout.html",
-              "RelativeDocumentMoniker": "ServerScope\\templates\\layout.html",
-              "ToolTip": "C:\\Users\\Gary\\source\\repos\\everyones-guy\\ServerScope\\ServerScope\\templates\\layout.html",
-              "RelativeToolTip": "ServerScope\\templates\\layout.html",
-              "ViewState": "AQIAABMAAAAAAAAAAADwvzUAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
-              "WhenOpened": "2024-09-23T16:01:57.311Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "run.py",
-              "DocumentMoniker": "C:\\Users\\Gary\\source\\repos\\everyones-guy\\ServerScope\\ServerScope\\run.py",
-              "RelativeDocumentMoniker": "ServerScope\\run.py",
-              "ToolTip": "C:\\Users\\Gary\\source\\repos\\everyones-guy\\ServerScope\\ServerScope\\run.py",
-              "RelativeToolTip": "ServerScope\\run.py",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAcAAAARAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
-              "WhenOpened": "2024-09-23T14:49:55.365Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "nfs_utils.py",
-              "DocumentMoniker": "C:\\Users\\Gary\\source\\repos\\everyones-guy\\ServerScope\\ServerScope\\app\\nfs_utils.py",
-              "RelativeDocumentMoniker": "ServerScope\\app\\nfs_utils.py",
-              "ToolTip": "C:\\Users\\Gary\\source\\repos\\everyones-guy\\ServerScope\\ServerScope\\app\\nfs_utils.py",
-              "RelativeToolTip": "ServerScope\\app\\nfs_utils.py",
-              "ViewState": "AQIAAF8AAAAAAAAAAADwv4AAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
-              "WhenOpened": "2024-09-23T02:05:53.558Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 17,
               "Title": "test_scan_report.py",
               "DocumentMoniker": "C:\\Users\\Gary\\source\\repos\\everyones-guy\\ServerScope\\ServerScope\\tests\\test_scan_report.py",
               "RelativeDocumentMoniker": "ServerScope\\tests\\test_scan_report.py",
@@ -203,7 +151,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 16,
               "Title": "test_models.py",
               "DocumentMoniker": "C:\\Users\\Gary\\source\\repos\\everyones-guy\\ServerScope\\ServerScope\\tests\\test_models.py",
               "RelativeDocumentMoniker": "ServerScope\\tests\\test_models.py",
@@ -216,7 +164,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 15,
               "Title": "test_logging_utils.py",
               "DocumentMoniker": "C:\\Users\\Gary\\source\\repos\\everyones-guy\\ServerScope\\ServerScope\\tests\\test_logging_utils.py",
               "RelativeDocumentMoniker": "ServerScope\\tests\\test_logging_utils.py",
@@ -229,7 +177,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 14,
               "Title": "test_git_utils.py",
               "DocumentMoniker": "C:\\Users\\Gary\\source\\repos\\everyones-guy\\ServerScope\\ServerScope\\tests\\test_git_utils.py",
               "RelativeDocumentMoniker": "ServerScope\\tests\\test_git_utils.py",
@@ -242,7 +190,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 18,
               "Title": "test_command_utils.py",
               "DocumentMoniker": "C:\\Users\\Gary\\source\\repos\\everyones-guy\\ServerScope\\ServerScope\\tests\\test_command_utils.py",
               "RelativeDocumentMoniker": "ServerScope\\tests\\test_command_utils.py",
@@ -255,7 +203,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 19,
               "Title": "test_ansible_utils.py",
               "DocumentMoniker": "C:\\Users\\Gary\\source\\repos\\everyones-guy\\ServerScope\\ServerScope\\tests\\test_ansible_utils.py",
               "RelativeDocumentMoniker": "ServerScope\\tests\\test_ansible_utils.py",
@@ -268,7 +216,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
+              "DocumentIndex": 20,
               "Title": "import_ansible_data.py",
               "DocumentMoniker": "C:\\Users\\Gary\\source\\repos\\everyones-guy\\ServerScope\\ServerScope\\migrations\\versions\\import_ansible_data.py",
               "RelativeDocumentMoniker": "ServerScope\\migrations\\versions\\import_ansible_data.py",
@@ -281,7 +229,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 9,
               "Title": "requirements.txt",
               "DocumentMoniker": "C:\\Users\\Gary\\source\\repos\\everyones-guy\\ServerScope\\requirements.txt",
               "RelativeDocumentMoniker": "requirements.txt",
@@ -294,7 +242,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 5,
               "Title": "audit_logs.html",
               "DocumentMoniker": "C:\\Users\\Gary\\source\\repos\\everyones-guy\\ServerScope\\ServerScope\\templates\\audit_logs.html",
               "RelativeDocumentMoniker": "ServerScope\\templates\\audit_logs.html",
@@ -307,7 +255,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 3,
               "Title": "servers.html",
               "DocumentMoniker": "C:\\Users\\Gary\\source\\repos\\everyones-guy\\ServerScope\\ServerScope\\templates\\servers.html",
               "RelativeDocumentMoniker": "ServerScope\\templates\\servers.html",
@@ -320,7 +268,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 8,
               "Title": "__init__.py (app)",
               "DocumentMoniker": "C:\\Users\\Gary\\source\\repos\\everyones-guy\\ServerScope\\ServerScope\\app\\__init__.py",
               "RelativeDocumentMoniker": "ServerScope\\app\\__init__.py",
@@ -333,7 +281,85 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 1,
+              "Title": "auth.py",
+              "DocumentMoniker": "C:\\Users\\Gary\\source\\repos\\everyones-guy\\ServerScope\\ServerScope\\app\\auth.py",
+              "RelativeDocumentMoniker": "ServerScope\\app\\auth.py",
+              "ToolTip": "C:\\Users\\Gary\\source\\repos\\everyones-guy\\ServerScope\\ServerScope\\app\\auth.py",
+              "RelativeToolTip": "ServerScope\\app\\auth.py",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAB8AAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2024-09-22T07:06:04.846Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "splunk_utils.py",
+              "DocumentMoniker": "C:\\Users\\Gary\\source\\repos\\everyones-guy\\ServerScope\\ServerScope\\app\\splunk_utils.py",
+              "RelativeDocumentMoniker": "ServerScope\\app\\splunk_utils.py",
+              "ToolTip": "C:\\Users\\Gary\\source\\repos\\everyones-guy\\ServerScope\\ServerScope\\app\\splunk_utils.py",
+              "RelativeToolTip": "ServerScope\\app\\splunk_utils.py",
+              "ViewState": "AQIAALMAAAAAAAAAAADwv8UAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2024-09-23T04:37:38.357Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "nfs_utils.py",
+              "DocumentMoniker": "C:\\Users\\Gary\\source\\repos\\everyones-guy\\ServerScope\\ServerScope\\app\\nfs_utils.py",
+              "RelativeDocumentMoniker": "ServerScope\\app\\nfs_utils.py",
+              "ToolTip": "C:\\Users\\Gary\\source\\repos\\everyones-guy\\ServerScope\\ServerScope\\app\\nfs_utils.py",
+              "RelativeToolTip": "ServerScope\\app\\nfs_utils.py",
+              "ViewState": "AQIAAF8AAAAAAAAAAADwv4AAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2024-09-23T02:05:53.558Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "run.py",
+              "DocumentMoniker": "C:\\Users\\Gary\\source\\repos\\everyones-guy\\ServerScope\\ServerScope\\run.py",
+              "RelativeDocumentMoniker": "ServerScope\\run.py",
+              "ToolTip": "C:\\Users\\Gary\\source\\repos\\everyones-guy\\ServerScope\\ServerScope\\run.py",
+              "RelativeToolTip": "ServerScope\\run.py",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAcAAAARAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
+              "WhenOpened": "2024-09-23T14:49:55.365Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "site.css",
+              "DocumentMoniker": "C:\\Users\\Gary\\source\\repos\\everyones-guy\\ServerScope\\ServerScope\\static\\content\\site.css",
+              "RelativeDocumentMoniker": "ServerScope\\static\\content\\site.css",
+              "ToolTip": "C:\\Users\\Gary\\source\\repos\\everyones-guy\\ServerScope\\ServerScope\\static\\content\\site.css",
+              "RelativeToolTip": "ServerScope\\static\\content\\site.css",
+              "ViewState": "AQIAAFEAAAAAAAAAAAAAAGwAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2024-09-23T16:06:44.646Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "layout.html",
+              "DocumentMoniker": "C:\\Users\\Gary\\source\\repos\\everyones-guy\\ServerScope\\ServerScope\\templates\\layout.html",
+              "RelativeDocumentMoniker": "ServerScope\\templates\\layout.html",
+              "ToolTip": "C:\\Users\\Gary\\source\\repos\\everyones-guy\\ServerScope\\ServerScope\\templates\\layout.html",
+              "RelativeToolTip": "ServerScope\\templates\\layout.html",
+              "ViewState": "AQIAABMAAAAAAAAAAADwvzUAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2024-09-23T16:01:57.311Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
               "Title": "network_scan_utils.py",
               "DocumentMoniker": "C:\\Users\\Gary\\source\\repos\\everyones-guy\\ServerScope\\ServerScope\\app\\network_scan_utils.py",
               "RelativeDocumentMoniker": "ServerScope\\app\\network_scan_utils.py",
@@ -346,7 +372,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 6,
               "Title": "routes.py",
               "DocumentMoniker": "C:\\Users\\Gary\\source\\repos\\everyones-guy\\ServerScope\\ServerScope\\app\\routes.py",
               "RelativeDocumentMoniker": "ServerScope\\app\\routes.py",
@@ -359,7 +385,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 11,
               "Title": "logging_utils.py",
               "DocumentMoniker": "C:\\Users\\Gary\\source\\repos\\everyones-guy\\ServerScope\\ServerScope\\app\\logging_utils.py",
               "RelativeDocumentMoniker": "ServerScope\\app\\logging_utils.py",
@@ -368,19 +394,6 @@
               "ViewState": "AQIAAEIAAAAAAAAAAADwv2MAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
               "WhenOpened": "2024-09-22T21:04:25.427Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 20,
-              "Title": "splunk_utils.py",
-              "DocumentMoniker": "C:\\Users\\Gary\\source\\repos\\everyones-guy\\ServerScope\\ServerScope\\app\\splunk_utils.py",
-              "RelativeDocumentMoniker": "ServerScope\\app\\splunk_utils.py",
-              "ToolTip": "C:\\Users\\Gary\\source\\repos\\everyones-guy\\ServerScope\\ServerScope\\app\\splunk_utils.py",
-              "RelativeToolTip": "ServerScope\\app\\splunk_utils.py",
-              "ViewState": "AQIAAFEAAAAAAAAAAAAAAAsAAAASAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
-              "WhenOpened": "2024-09-23T04:37:38.357Z",
               "EditorCaption": ""
             },
             {
@@ -398,7 +411,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 12,
               "Title": "models.py",
               "DocumentMoniker": "C:\\Users\\Gary\\source\\repos\\everyones-guy\\ServerScope\\ServerScope\\app\\models.py",
               "RelativeDocumentMoniker": "ServerScope\\app\\models.py",
@@ -485,19 +498,6 @@
               "ViewState": "AQIAAAwAAAAAAAAAAAAAAAgAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
               "WhenOpened": "2024-09-22T21:15:04.503Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 19,
-              "Title": "auth.py",
-              "DocumentMoniker": "C:\\Users\\Gary\\source\\repos\\everyones-guy\\ServerScope\\ServerScope\\app\\auth.py",
-              "RelativeDocumentMoniker": "ServerScope\\app\\auth.py",
-              "ToolTip": "C:\\Users\\Gary\\source\\repos\\everyones-guy\\ServerScope\\ServerScope\\app\\auth.py",
-              "RelativeToolTip": "ServerScope\\app\\auth.py",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAB8AAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002457|",
-              "WhenOpened": "2024-09-22T07:06:04.846Z",
               "EditorCaption": ""
             }
           ]
