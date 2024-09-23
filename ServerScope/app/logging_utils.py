@@ -34,6 +34,21 @@ class LoggingUtils:
         self.logger.addHandler(handler)
         self.logger.addHandler(console_handler)
 
+    def log_action(self, action_description, username):
+        """Log user actions into the AuditLog table."""
+        try:
+            new_log = AuditLog(
+                action=action_description,
+                username=username,
+                timestamp=datetime.utcnow()
+            )
+            db.session.add(new_log)
+            db.session.commit()
+            print(f"Action logged: {action_description} by {username}")
+        except Exception as e:
+            db.session.rollback()  # Roll back the transaction in case of failure
+            print(f"Failed to log action: {e}")
+
     def log_info(self, message):
         """Logs an info message."""
         self.logger.info(message)

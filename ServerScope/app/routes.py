@@ -3,16 +3,19 @@ from flask_login import login_required, current_user
 from app.models import Server, Job, NetworkScanResult as ScanReport, AuditLog, db
 from app.network_scan_utils import NetworkScanner
 from app.command_utils import CommandExecutor
-from app.logging_utils import log_action
+from app.logging_utils import LoggingUtils
 from app.auth import role_required
 from nfs_utils import NFSUtils
 from sqlalchemy import create_engine
 from sqlalchemy.exc import OperationalError
 import logging
 
-# Setup logging
+# Setup logging for general errors
 logging.basicConfig(filename='error.log', level=logging.ERROR)
-logger = logging.getLogger(__name__)
+error_logger = logging.getLogger(__name__)
+
+# Create an instance of LoggingUtils for logging actions
+action_logger = LoggingUtils()
 
 nfs_bp = Blueprint('nfs', __name__)
 main = Blueprint('main', __name__)
@@ -34,10 +37,10 @@ def add_server():
         new_server = Server(name=name, ip=ip, os=os)
         db.session.add(new_server)
         db.session.commit()
-        log_action(f"Added new server {name} ({ip})", current_user.username)
+        action_logger.log_action(f"Added new server {name} ({ip})", current_user.username)  # Instance method
         flash(f"Server {name} added successfully!", "success")
     except Exception as e:
-        logger.error(f"Failed to add server {name}: {e}")
+        error_logger.error(f"Failed to add server {name}: {e}")
         flash(f"Error adding server {name}. Please check logs.", "danger")
 
     return redirect(url_for('main.view_servers'))
@@ -61,10 +64,10 @@ def execute_command(server_id):
             else:
                 output = "Unsupported or unrecognized OS. Please check the server configuration."
 
-            log_action(f"Executed command on {server.name} ({server.ip}): {command}", current_user.username)
+            action_logger.log_action(f"Executed command on {server.name} ({server.ip}): {command}", current_user.username)  # Instance method
             flash(f"Command executed on server {server.name}.", "success")
         except Exception as e:
-            logger.error(f"Error executing command on {server.name}: {e}")
+            error_logger.error(f"Error executing command on {server.name}: {e}")
             flash(f"Failed to execute command. Please check logs.", "danger")
 
         return render_template('command_result.html', output=output, server=server)
@@ -77,10 +80,10 @@ def scan_network():
     try:
         scanner = NetworkScanner(network_range="192.168.1.0/24")
         new_machines, scan_report = scanner.scan_for_ansible_machines()
-        log_action(f"Network scan performed by {current_user.username}", current_user.username)
+        action_logger.log_action(f"Network scan performed by {current_user.username}", current_user.username)  # Instance method
         flash(f"Network scan completed successfully.", "success")
     except Exception as e:
-        logger.error(f"Error performing network scan: {e}")
+        error_logger.error(f"Error performing network scan: {e}")
         flash(f"Network scan failed. Please check logs.", "danger")
 
     return render_template('scan_results.html', new_machines=new_machines, report=scan_report)
@@ -110,7 +113,7 @@ def server_health(server_id):
         health_output = CommandExecutor.get_server_health(server.ip, server.username, server.password)
         flash(f"Health check completed for server {server.name}.", "success")
     except Exception as e:
-        logger.error(f"Error checking health of server {server.name}: {e}")
+        error_logger.error(f"Error checking health of server {server.name}: {e}")
         flash(f"Health check failed. Please check logs.", "danger")
 
     return render_template('server_health.html', server=server, health_output=health_output)
@@ -131,7 +134,7 @@ def list_nfs_shares(server_id):
         NFSUtils.log_nfs_shares_to_db(server_id, nfs_shares)
         flash(f"NFS shares listed for server {server.name}.", "success")
     except Exception as e:
-        logger.error(f"Error listing NFS shares for server {server.name}: {e}")
+        error_logger.error(f"Error listing NFS shares for server {server.name}: {e}")
         flash(f"Failed to list NFS shares. Please check logs.", "danger")
 
     return render_template('nfs_shares.html', shares=nfs_shares)
@@ -145,7 +148,7 @@ def add_nfs_share(server_id, share_path):
         result = NFSUtils.add_nfs_share(server.ip_address, server.username, server.password, share_path)
         flash(result, "success")
     except Exception as e:
-        logger.error(f"Error adding NFS share {share_path} for server {server.name}: {e}")
+        error_logger.error(f"Error adding NFS share {share_path} for server {server.name}: {e}")
         flash(f"Failed to add NFS share. Please check logs.", "danger")
 
     return redirect(url_for('nfs.list_nfs_shares', server_id=server_id))
@@ -159,7 +162,7 @@ def remove_nfs_share(server_id, share_path):
         result = NFSUtils.remove_nfs_share(server.ip_address, server.username, server.password, share_path)
         flash(result, "success")
     except Exception as e:
-        logger.error(f"Error removing NFS share {share_path} for server {server.name}: {e}")
+        error_logger.error(f"Error removing NFS share {share_path} for server {server.name}: {e}")
         flash(f"Failed to remove NFS share. Please check logs.", "danger")
 
     return redirect(url_for('nfs.list_nfs_shares', server_id=server_id))
@@ -183,7 +186,7 @@ def setup_database():
             db.create_all(bind=engine)
             flash("Database setup completed successfully!", "success")
         except OperationalError as e:
-            logger.error(f"Database setup failed: {e}")
+            error_logger.error(f"Database setup failed: {e}")
             flash(f"Failed to set up the database. Please check logs.", "danger")
 
     return render_template('setup_database.html')
