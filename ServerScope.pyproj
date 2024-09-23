@@ -36,6 +36,9 @@
     <Compile Include="ServerScope\app\auth.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ServerScope\app\backup_utils.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="ServerScope\app\command_utils.py">
       <SubType>Code</SubType>
     </Compile>
@@ -152,6 +155,7 @@
     <Content Include="ServerScope\static\scripts\respond.min.js" />
     <Content Include="ServerScope\static\scripts\_references.js" />
     <Content Include="ServerScope\templates\about.html" />
+    <Content Include="ServerScope\templates\analysis_result.html" />
     <Content Include="ServerScope\templates\audit_logs.html" />
     <Content Include="ServerScope\templates\command_form.html" />
     <Content Include="ServerScope\templates\command_result.html" />
@@ -168,6 +172,7 @@
       <SubType>Code</SubType>
     </Content>
     <Content Include="ServerScope\templates\server_health.html" />
+    <Content Include="ServerScope\templates\setup_database.html" />
     <Content Include="ServerScope\templates\splunk_config.html" />
     <Content Include="ServerScope\templates\splunk_logs.html" />
   </ItemGroup>

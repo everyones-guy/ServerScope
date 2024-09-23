@@ -1,7 +1,6 @@
-# command_utils.py
-
 import paramiko
 import winrm
+# revisit this to auto configure the http 85 or 86 depending on the server
 
 class CommandExecutor:
 
@@ -20,7 +19,7 @@ class CommandExecutor:
                 return f"Error: {error}"
             return output
         except Exception as e:
-            return f"Error connecting to {server_ip}: {str(e)}"
+            return f"Error connecting to {server_ip} via SSH: {str(e)}"
 
     @staticmethod
     def execute_winrm_command(server_ip, username, password, command):
@@ -34,9 +33,10 @@ class CommandExecutor:
                 return f"Error: {error}"
             return output
         except Exception as e:
-            return f"Error connecting to {server_ip}: {str(e)}"
+            return f"Error connecting to {server_ip} via WinRM: {str(e)}"
 
     @staticmethod
     def get_server_health(server_ip, username, password):
+        """Retrieve server health via SSH"""
         command = "top -bn1 | grep 'Cpu\\|Mem\\|Swap' && df -h"
         return CommandExecutor.execute_ssh_command(server_ip, username, password, command)

@@ -1,0 +1,22 @@
+<h2>Splunk Log Analysis</h2>
+
+<h3>Errors</h3>
+<ul>
+  {% for error in analysis['errors'] %}
+    <li>{{ error }}</li>
+  {% endfor %}
+</ul>
+
+<h3>Warnings</h3>
+<ul>
+  {% for warning in analysis['warnings'] %}
+    <li>{{ warning }}</li>
+  {% endfor %}
+</ul>
+
+<h3>Info Logs</h3>
+<ul>
+  {% for info in analysis['info'] %}
+    <li>{{ info }}</li>
+  {% endfor %}
+</ul>
