@@ -16,7 +16,7 @@ class TestGitUtils(unittest.TestCase):
         result = GitUtils.clone_repository('https://github.com/user/repo.git', '/path/to/destination')
         
         # Assertions
-        mock_clone_from.assert_called_with('https://github.com/user/repo.git', '/path/to/destination')
+        mock_clone_from.assert_called_once_with('https://github.com/user/repo.git', '/path/to/destination')
         self.assertTrue(result)
         
     @patch('git.Repo.clone_from')
@@ -29,7 +29,7 @@ class TestGitUtils(unittest.TestCase):
         result = GitUtils.clone_repository('https://github.com/user/repo.git', '/path/to/destination')
         
         # Assertions
-        mock_clone_from.assert_called_with('https://github.com/user/repo.git', '/path/to/destination')
+        mock_clone_from.assert_called_once_with('https://github.com/user/repo.git', '/path/to/destination')
         self.assertFalse(result)
 
     @patch('git.Repo')
@@ -46,7 +46,7 @@ class TestGitUtils(unittest.TestCase):
         result = GitUtils.pull_latest_changes('/path/to/repo')
         
         # Assertions
-        mock_repo.assert_called_with('/path/to/repo')
+        mock_repo.assert_called_once_with('/path/to/repo')
         mock_origin.pull.assert_called_once()
         self.assertEqual(result, "Successfully pulled")
 
@@ -64,7 +64,7 @@ class TestGitUtils(unittest.TestCase):
         result = GitUtils.pull_latest_changes('/path/to/repo')
         
         # Assertions
-        mock_repo.assert_called_with('/path/to/repo')
+        mock_repo.assert_called_once_with('/path/to/repo')
         mock_origin.pull.assert_called_once()
         self.assertEqual(result, "Error: Pull failed")
 
@@ -80,8 +80,8 @@ class TestGitUtils(unittest.TestCase):
         result = GitUtils.commit_changes('/path/to/repo', 'Test commit message')
         
         # Assertions
-        mock_repo.assert_called_with('/path/to/repo')
-        mock_repo_instance.git.commit.assert_called_with('-m', 'Test commit message')
+        mock_repo.assert_called_once_with('/path/to/repo')
+        mock_repo_instance.git.commit.assert_called_once_with('-m', 'Test commit message')
         self.assertEqual(result, "Successfully committed")
         
     @patch('git.Repo')
@@ -96,8 +96,8 @@ class TestGitUtils(unittest.TestCase):
         result = GitUtils.commit_changes('/path/to/repo', 'Test commit message')
         
         # Assertions
-        mock_repo.assert_called_with('/path/to/repo')
-        mock_repo_instance.git.commit.assert_called_with('-m', 'Test commit message')
+        mock_repo.assert_called_once_with('/path/to/repo')
+        mock_repo_instance.git.commit.assert_called_once_with('-m', 'Test commit message')
         self.assertEqual(result, "Error: Commit failed")
 
 if __name__ == '__main__':

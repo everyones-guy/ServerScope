@@ -17,3 +17,7 @@ APScheduler==3.9.1
 Flask-Mail==0.9.1
 twilio==8.0.0
 SQLAlchemy==2.0.17
+GitPython==3.1.43
+python-nmap==0.7.1
+python-dotenv==1.0.1
+

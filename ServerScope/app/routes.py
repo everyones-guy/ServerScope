@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash, abort
 from flask_login import login_required, current_user
-from app.models import Server, Job, ScanReport, AuditLog, db
+from app.models import Server, Job, NetworkScanResult as ScanReport, AuditLog, db
 from app.network_scan_utils import NetworkScanner
 from app.command_utils import CommandExecutor
 from app.logging_utils import log_action
@@ -8,13 +8,14 @@ from app.auth import role_required
 from nfs_utils import NFSUtils
 from sqlalchemy import create_engine
 from sqlalchemy.exc import OperationalError
+import logging
+
+# Setup logging
+logging.basicConfig(filename='error.log', level=logging.ERROR)
+logger = logging.getLogger(__name__)
 
 nfs_bp = Blueprint('nfs', __name__)
 main = Blueprint('main', __name__)
-
-# Blueprint registration should be done in your app (app.py or run.py) as:
-# app.register_blueprint(main)
-# app.register_blueprint(nfs_bp, url_prefix='/nfs')
 
 @main.route('/servers')
 @login_required
@@ -29,34 +30,43 @@ def add_server():
     ip = request.form['ip']
     os = request.form['os']
 
-    new_server = Server(name=name, ip=ip, os=os)
-    db.session.add(new_server)
-    db.session.commit()
+    try:
+        new_server = Server(name=name, ip=ip, os=os)
+        db.session.add(new_server)
+        db.session.commit()
+        log_action(f"Added new server {name} ({ip})", current_user.username)
+        flash(f"Server {name} added successfully!", "success")
+    except Exception as e:
+        logger.error(f"Failed to add server {name}: {e}")
+        flash(f"Error adding server {name}. Please check logs.", "danger")
 
-    log_action(f"Added new server {name} ({ip})", current_user.username)
-    flash(f"Server {name} added successfully!", "success")
     return redirect(url_for('main.view_servers'))
 
 @main.route('/execute_command/<server_id>', methods=['GET', 'POST'])
 @login_required
 def execute_command(server_id):
     server = Server.query.get_or_404(server_id)
-    
+
     if request.method == 'POST':
         command = request.form['command']
         username = request.form['username']
         password = request.form['password']
 
-        # Determine if the server is Linux or Windows and execute the command accordingly
-        if server.os.lower() in ['linux', 'debian', 'ubuntu', 'redhat', 'centos']:
-            output = CommandExecutor.execute_ssh_command(server.ip, username, password, command)
-        elif server.os.lower() in ['windows', 'win']:
-            output = CommandExecutor.execute_winrm_command(server.ip, username, password, command)
-        else:
-            output = "Unsupported or unrecognized OS. Please check the server configuration."
+        try:
+            # Determine if the server is Linux or Windows and execute the command accordingly
+            if server.os.lower() in ['linux', 'debian', 'ubuntu', 'redhat', 'centos']:
+                output = CommandExecutor.execute_ssh_command(server.ip, username, password, command)
+            elif server.os.lower() in ['windows', 'win']:
+                output = CommandExecutor.execute_winrm_command(server.ip, username, password, command)
+            else:
+                output = "Unsupported or unrecognized OS. Please check the server configuration."
 
-        log_action(f"Executed command on {server.name} ({server.ip}): {command}", current_user.username)
-        flash(f"Command executed on server {server.name}.", "success")
+            log_action(f"Executed command on {server.name} ({server.ip}): {command}", current_user.username)
+            flash(f"Command executed on server {server.name}.", "success")
+        except Exception as e:
+            logger.error(f"Error executing command on {server.name}: {e}")
+            flash(f"Failed to execute command. Please check logs.", "danger")
+
         return render_template('command_result.html', output=output, server=server)
 
     return render_template('command_form.html', server=server)
@@ -64,11 +74,15 @@ def execute_command(server_id):
 @main.route('/scan_network')
 @login_required
 def scan_network():
-    scanner = NetworkScanner(network_range="192.168.1.0/24")
-    new_machines, scan_report = scanner.scan_for_ansible_machines()
+    try:
+        scanner = NetworkScanner(network_range="192.168.1.0/24")
+        new_machines, scan_report = scanner.scan_for_ansible_machines()
+        log_action(f"Network scan performed by {current_user.username}", current_user.username)
+        flash(f"Network scan completed successfully.", "success")
+    except Exception as e:
+        logger.error(f"Error performing network scan: {e}")
+        flash(f"Network scan failed. Please check logs.", "danger")
 
-    log_action(f"Network scan performed by {current_user.username}", current_user.username)
-    flash(f"Network scan completed successfully.", "success")
     return render_template('scan_results.html', new_machines=new_machines, report=scan_report)
 
 @main.route('/scan_reports')
@@ -91,8 +105,14 @@ def user_dashboard():
 @role_required('admin')  # Restrict access to admins or specific roles
 def server_health(server_id):
     server = Server.query.get_or_404(server_id)
-    health_output = CommandExecutor.get_server_health(server.ip, server.username, server.password)
-    flash(f"Health check completed for server {server.name}.", "success")
+
+    try:
+        health_output = CommandExecutor.get_server_health(server.ip, server.username, server.password)
+        flash(f"Health check completed for server {server.name}.", "success")
+    except Exception as e:
+        logger.error(f"Error checking health of server {server.name}: {e}")
+        flash(f"Health check failed. Please check logs.", "danger")
+
     return render_template('server_health.html', server=server, health_output=health_output)
 
 @main.route('/audit_logs')
@@ -105,25 +125,43 @@ def audit_logs():
 @login_required
 def list_nfs_shares(server_id):
     server = Server.query.get_or_404(server_id)
-    nfs_shares = NFSUtils.list_nfs_shares(server.ip_address, server.username, server.password)
-    NFSUtils.log_nfs_shares_to_db(server_id, nfs_shares)
-    flash(f"NFS shares listed for server {server.name}.", "success")
+
+    try:
+        nfs_shares = NFSUtils.list_nfs_shares(server.ip_address, server.username, server.password)
+        NFSUtils.log_nfs_shares_to_db(server_id, nfs_shares)
+        flash(f"NFS shares listed for server {server.name}.", "success")
+    except Exception as e:
+        logger.error(f"Error listing NFS shares for server {server.name}: {e}")
+        flash(f"Failed to list NFS shares. Please check logs.", "danger")
+
     return render_template('nfs_shares.html', shares=nfs_shares)
 
 @nfs_bp.route('/nfs/add/<int:server_id>/<path:share_path>')
 @login_required
 def add_nfs_share(server_id, share_path):
     server = Server.query.get_or_404(server_id)
-    result = NFSUtils.add_nfs_share(server.ip_address, server.username, server.password, share_path)
-    flash(result, "success")
+
+    try:
+        result = NFSUtils.add_nfs_share(server.ip_address, server.username, server.password, share_path)
+        flash(result, "success")
+    except Exception as e:
+        logger.error(f"Error adding NFS share {share_path} for server {server.name}: {e}")
+        flash(f"Failed to add NFS share. Please check logs.", "danger")
+
     return redirect(url_for('nfs.list_nfs_shares', server_id=server_id))
 
 @nfs_bp.route('/nfs/remove/<int:server_id>/<path:share_path>')
 @login_required
 def remove_nfs_share(server_id, share_path):
     server = Server.query.get_or_404(server_id)
-    result = NFSUtils.remove_nfs_share(server.ip_address, server.username, server.password, share_path)
-    flash(result, "success")
+
+    try:
+        result = NFSUtils.remove_nfs_share(server.ip_address, server.username, server.password, share_path)
+        flash(result, "success")
+    except Exception as e:
+        logger.error(f"Error removing NFS share {share_path} for server {server.name}: {e}")
+        flash(f"Failed to remove NFS share. Please check logs.", "danger")
+
     return redirect(url_for('nfs.list_nfs_shares', server_id=server_id))
 
 # Database setup route
@@ -144,10 +182,8 @@ def setup_database():
 
             db.create_all(bind=engine)
             flash("Database setup completed successfully!", "success")
-            return redirect(url_for('main.home'))
         except OperationalError as e:
-            flash(f"Failed to set up the database: {e}", "danger")
-            return render_template('setup_database.html')
+            logger.error(f"Database setup failed: {e}")
+            flash(f"Failed to set up the database. Please check logs.", "danger")
 
     return render_template('setup_database.html')
-

@@ -1,5 +1,3 @@
-# models.py
-
 from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin
@@ -24,6 +22,9 @@ class User(db.Model, UserMixin):
     
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
+
+    def has_role(self, role):
+        return self.role == role
 
     def __repr__(self):
         return f'<User {self.username}>'
@@ -78,6 +79,8 @@ class Job(db.Model):
     result = db.Column(db.Text, nullable=True)  # Store result logs or output
 
     server = db.relationship('Server', backref='jobs')
+
+    __table_args__ = (db.Index('idx_server_schedule', 'server_id', 'schedule_time'),)
 
     def __repr__(self):
         return f'<Job {self.id} - {self.job_type} on Server {self.server_id}>'
