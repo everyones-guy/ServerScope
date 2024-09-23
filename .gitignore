@@ -68,3 +68,6 @@ staticfiles/
 *.css.map
 *.js.map
 node_modules/
+/.vs/ServerScope/v17/.suo
+/.vs/ServerScope/v17/DocumentLayout.json
+/.vs/slnx.sqlite
