@@ -5,7 +5,7 @@ from app.network_scan_utils import NetworkScanner
 from app.command_utils import CommandExecutor
 from app.logging_utils import LoggingUtils
 from app.auth import role_required
-from nfs_utils import NFSUtils
+from app.nfs_utils import NFSUtils
 from sqlalchemy import create_engine
 from sqlalchemy.exc import OperationalError
 import logging
