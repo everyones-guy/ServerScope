@@ -20,4 +20,7 @@ SQLAlchemy==2.0.17
 GitPython==3.1.43
 python-nmap==0.7.1
 python-dotenv==1.0.1
+cryptography==43.0.1
+paramiko==3.5.0
+pynacl==1.5.0
 
