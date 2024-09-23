@@ -10,36 +10,71 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='content/site.css') }}">
 </head>
 <body>
+    <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="{{ url_for('main.index') }}">ServerScope</a>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('main.view_servers') }}">Servers</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('main.scan_network') }}">Scan Network</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('main.view_scan_reports') }}">Scan Reports</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('main.splunk_logs') }}">Splunk Logs</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('main.about') }}">About</a>
-                </li>
-            </ul>
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{{ url_for('main.index') }}">ServerScope</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('main.view_servers') }}">Servers</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('main.scan_network') }}">Scan Network</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('main.view_scan_reports') }}">Scan Reports</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('main.audit_logs') }}">Audit Logs</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('main.about') }}">About</a>
+                    </li>
+                </ul>
+                <form class="d-flex">
+                    <button class="btn btn-outline-success" type="submit">Logout</button>
+                </form>
+            </div>
         </div>
     </nav>
 
+    <!-- Tabs Section (Optional) -->
     <div class="container mt-4">
-        {% block content %}
-        {% endblock %}
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="servers-tab" data-bs-toggle="tab" data-bs-target="#servers" type="button" role="tab" aria-controls="servers" aria-selected="true">Servers</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="scan-network-tab" data-bs-toggle="tab" data-bs-target="#scan-network" type="button" role="tab" aria-controls="scan-network" aria-selected="false">Scan Network</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="scan-reports-tab" data-bs-toggle="tab" data-bs-target="#scan-reports" type="button" role="tab" aria-controls="scan-reports" aria-selected="false">Scan Reports</button>
+            </li>
+        </ul>
+
+        <!-- Tab Content -->
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="servers" role="tabpanel" aria-labelledby="servers-tab">
+                <div class="container mt-4">
+                    {% block content %}
+                    {% endblock %}
+                </div>
+            </div>
+            <div class="tab-pane fade" id="scan-network" role="tabpanel" aria-labelledby="scan-network-tab">
+                <!-- You can load Scan Network content here -->
+            </div>
+            <div class="tab-pane fade" id="scan-reports" role="tabpanel" aria-labelledby="scan-reports-tab">
+                <!-- You can load Scan Reports content here -->
+            </div>
+        </div>
     </div>
 
     <!-- jQuery and Bootstrap JS -->
     <script src="{{ url_for('static', filename='scripts/jquery-1.10.2.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='scripts/bootstrap.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='scripts/bootstrap.bundle.min.js') }}"></script>
 </body>
 </html>

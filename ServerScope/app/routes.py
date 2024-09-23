@@ -20,6 +20,15 @@ action_logger = LoggingUtils()
 nfs_bp = Blueprint('nfs', __name__)
 main = Blueprint('main', __name__)
 
+@main.route('/')
+def index():
+    return render_template('index.html')  # Assuming you have an 'index.html' in your templates folder
+
+@main.route('/about')
+def about():
+    return render_template('about.html')
+
+
 @main.route('/servers')
 @login_required
 def view_servers():
@@ -190,3 +199,10 @@ def setup_database():
             flash(f"Failed to set up the database. Please check logs.", "danger")
 
     return render_template('setup_database.html')
+
+@main.route('/splunk_logs')
+@login_required
+def splunk_logs():
+    # Add logic here for retrieving Splunk logs
+    return render_template('splunk_logs.html')  # Ensure you have a 'splunk_logs.html' template
+
