@@ -15,7 +15,5 @@ Jinja2==3.1.2  # Template rendering engine, usually bundled with Flask
 cryptography==41.0.3  # Used by paramiko for SSH encryption
 APScheduler==3.9.1
 Flask-Mail==0.9.1
-requests==2.31.0
 twilio==8.0.0
 SQLAlchemy==2.0.17
- 
