@@ -1,36 +1,30 @@
-from flask import Blueprint, redirect, url_for, flash, render_template, request
-from flask_login import LoginManager, login_user, logout_user, login_required, current_user
+from flask import Blueprint, render_template, redirect, url_for, flash, request, abort
+from flask_login import login_user, logout_user, login_required, current_user
 from werkzeug.security import check_password_hash
+from app.models import User
 from functools import wraps
-from app.models import User  # Assuming you have a User model in models.py
 
 auth = Blueprint('auth', __name__)
 
-login_manager = LoginManager()
-
+# User loader for Flask-Login
 @login_manager.user_loader
 def load_user(user_id):
-    return User.query.get(int(user_id))  # Use the User model to load user by ID
+    return User.query.get(int(user_id))
 
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        username = request.form.get('username')
-        password = request.form.get('password')
-        
-        # Fetch the user from the database
+        username = request.form['username']
+        password = request.form['password']
         user = User.query.filter_by(username=username).first()
 
-        if user and check_password_hash(user.password, password):
-            # User exists and password matches, log them in
+        if user and user.check_password(password):
             login_user(user)
-            flash('Login successful!', 'success')
-            return redirect(url_for('main.index'))  # Redirect to the homepage after login
+            flash('Login successful', 'success')
+            return redirect(url_for('main.index'))  # Redirect to the index page after login
         else:
             flash('Invalid username or password', 'danger')
-            return redirect(url_for('auth.login'))  # Reload the login page on failure
-    
-    # If GET request, display the login page
+
     return render_template('login.html')
 
 @auth.route('/logout')
@@ -38,8 +32,9 @@ def login():
 def logout():
     logout_user()
     flash("You have been logged out.", "success")
-    return redirect(url_for('main.index'))  # Redirect to homepage after logout
+    return redirect(url_for('main.index'))
 
+# Decorator for role-based access control
 def role_required(role):
     def decorator(func):
         @wraps(func)

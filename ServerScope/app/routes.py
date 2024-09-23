@@ -1,10 +1,10 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash, abort
-from flask_login import login_required, current_user
+from flask_login import login_required, current_user, logout_user
 from app.models import Server, Job, NetworkScanResult as ScanReport, AuditLog, db
 from app.network_scan_utils import NetworkScanner
 from app.command_utils import CommandExecutor
 from app.logging_utils import LoggingUtils
-from app.auth import role_required
+from app.auth import role_required, auth as auth_blueprint
 from app.nfs_utils import NFSUtils
 from sqlalchemy import create_engine
 from sqlalchemy.exc import OperationalError
@@ -19,15 +19,22 @@ action_logger = LoggingUtils()
 
 nfs_bp = Blueprint('nfs', __name__)
 main = Blueprint('main', __name__)
+auth = Blueprint('auth', __name__)
 
 @main.route('/')
 def index():
     return render_template('index.html')  # Assuming you have an 'index.html' in your templates folder
 
+@auth.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    flash("You have been logged out.", "success")
+    return redirect(url_for('main.index'))  # Redirect to homepage after logout
+
 @main.route('/about')
 def about():
     return render_template('about.html')
-
 
 @main.route('/servers')
 @login_required

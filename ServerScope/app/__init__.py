@@ -1,155 +1,70 @@
-from datetime import datetime
+import os
+from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import UserMixin
-from werkzeug.security import generate_password_hash, check_password_hash
+from flask_migrate import Migrate
+from flask_login import LoginManager
+from dotenv import load_dotenv
 
+# Load environment variables from .env file
+load_dotenv()
+
+# Initialize extensions globally
 db = SQLAlchemy()
+migrate = Migrate()
+login_manager = LoginManager()
 
-# User Model
-class User(db.Model, UserMixin):
-    __tablename__ = 'users'
-    
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(80), unique=True, nullable=False)
-    email = db.Column(db.String(120), unique=True, nullable=False)
-    password_hash = db.Column(db.String(128), nullable=False)
-    role = db.Column(db.String(50), nullable=False, default='user')  # e.g., 'admin', 'user'
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+def create_app():
+    """Factory function to create and configure the Flask app."""
+    app = Flask(__name__)
 
-    def set_password(self, password):
-        """Hashes the provided password and stores it."""
-        self.password_hash = generate_password_hash(password)
-    
-    def check_password(self, password):
-        """Checks the password against the stored hash."""
-        return check_password_hash(self.password_hash, password)
+    # Database configuration: Oracle, with fallback to SQLite
+    db_type = os.getenv('DB_TYPE', 'sqlite')
+    if db_type == 'oracle':
+        oracle_user = os.getenv('ORACLE_USER')
+        oracle_password = os.getenv('ORACLE_PASSWORD')
+        oracle_dsn = os.getenv('ORACLE_DSN')  # Oracle Data Source Name
 
-    def has_role(self, role):
-        """Checks if the user has a specific role."""
-        return self.role == role
+        if not all([oracle_user, oracle_password, oracle_dsn]):
+            raise RuntimeError("Missing Oracle DB configuration. Please set ORACLE_USER, ORACLE_PASSWORD, and ORACLE_DSN.")
 
-    @staticmethod
-    def create_user(username, email, password, role='user'):
-        """Utility method to create a new user."""
-        new_user = User(username=username, email=email)
-        new_user.set_password(password)
-        new_user.role = role
-        db.session.add(new_user)
-        db.session.commit()
+        app.config['SQLALCHEMY_DATABASE_URI'] = f'oracle+cx_oracle://{oracle_user}:{oracle_password}@{oracle_dsn}'
+    else:
+        app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///serverscope.db'
 
-    def __repr__(self):
-        return f'<User {self.username}>'
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'mysecretkey')  # For secure session management
 
-# AuditLog Model for tracking user actions
-class AuditLog(db.Model):
-    __tablename__ = 'audit_logs'
+    # Initialize extensions with app
+    db.init_app(app)
+    migrate.init_app(app, db)
+    login_manager.init_app(app)
 
-    id = db.Column(db.Integer, primary_key=True)
-    action = db.Column(db.String(255), nullable=False)
-    username = db.Column(db.String(80), nullable=False)
-    timestamp = db.Column(db.DateTime, default=datetime.utcnow)
+    # Redirect unauthorized users to the login page
+    login_manager.login_view = 'auth.login'
+    login_manager.login_message = 'Please log in to access this page.'
+    login_manager.login_message_category = 'info'  # Optional: for styling messages
 
-    def __repr__(self):
-        return f'<AuditLog {self.id} - {self.action} by {self.username}>'
+    # Import and register blueprints/routes
+    from app.routes import main, nfs_bp
+    app.register_blueprint(main)
+    app.register_blueprint(nfs_bp, url_prefix='/nfs')
 
-# Server Model for storing server information
-class Server(db.Model):
-    __tablename__ = 'servers'
+    # Register the auth blueprint
+    from app.auth import auth as auth_blueprint
+    app.register_blueprint(auth_blueprint, url_prefix='/auth')
 
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100), nullable=False)
-    ip_address = db.Column(db.String(45), nullable=False)  # To support IPv4 and IPv6
-    username = db.Column(db.String(80), nullable=False)
-    password_hash = db.Column(db.String(128), nullable=False)  # Store securely
-    os_type = db.Column(db.String(50), nullable=False)  # e.g., 'Linux', 'Windows'
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
-    last_health_check = db.Column(db.DateTime)
-    status = db.Column(db.String(50), nullable=True)  # 'Healthy', 'Warning', 'Critical', etc.
+    # Optional: Error handling
+    register_error_handlers(app)
 
-    def set_password(self, password):
-        """Set a hashed password for SSH/WinRM credentials."""
-        self.password_hash = generate_password_hash(password)
+    return app
 
-    def check_password(self, password):
-        """Check the hashed password."""
-        return check_password_hash(self.password_hash, password)
 
-    def __repr__(self):
-        return f'<Server {self.name} - {self.ip_address}>'
+def register_error_handlers(app):
+    """Register custom error handlers for common HTTP errors."""
+    @app.errorhandler(404)
+    def page_not_found(e):
+        return render_template('404.html'), 404
 
-# Job Model for scheduled jobs (e.g., backups, health checks)
-class Job(db.Model):
-    __tablename__ = 'jobs'
-
-    id = db.Column(db.Integer, primary_key=True)
-    job_type = db.Column(db.String(100), nullable=False)  # 'backup', 'health_check', etc.
-    server_id = db.Column(db.Integer, db.ForeignKey('servers.id'), nullable=False)
-    status = db.Column(db.String(50), nullable=False)  # 'Pending', 'Running', 'Completed', 'Failed'
-    schedule_time = db.Column(db.DateTime, nullable=False)
-    executed_at = db.Column(db.DateTime, nullable=True)
-    result = db.Column(db.Text, nullable=True)  # Store result logs or output
-
-    server = db.relationship('Server', backref='jobs')
-
-    __table_args__ = (db.Index('idx_server_schedule', 'server_id', 'schedule_time'),)
-
-    def __repr__(self):
-        return f'<Job {self.id} - {self.job_type} on Server {self.server_id}>'
-
-# Splunk Config Model for storing Splunk integration details
-class SplunkConfig(db.Model):
-    __tablename__ = 'splunk_configs'
-
-    id = db.Column(db.Integer, primary_key=True)
-    server_url = db.Column(db.String(255), nullable=False)
-    auth_token = db.Column(db.String(255), nullable=False)
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
-
-    def __repr__(self):
-        return f'<SplunkConfig {self.server_url}>'
-
-# NFS Files Model for storing details of NFS shared files
-class NFSFile(db.Model):
-    __tablename__ = 'nfs_files'
-
-    id = db.Column(db.Integer, primary_key=True)
-    server_id = db.Column(db.Integer, db.ForeignKey('servers.id'), nullable=False)
-    file_path = db.Column(db.String(255), nullable=False)
-    size = db.Column(db.String(50), nullable=False)
-    owner = db.Column(db.String(80), nullable=False)
-
-    server = db.relationship('Server', backref='nfs_files')
-
-    def __repr__(self):
-        return f'<NFSFile {self.file_path} on Server {self.server_id}>'
-
-# Tagging Model for server grouping and tagging
-class Tag(db.Model):
-    __tablename__ = 'tags'
-
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100), nullable=False, unique=True)
-    description = db.Column(db.String(255), nullable=True)
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
-
-    def __repr__(self):
-        return f'<Tag {self.name}>'
-
-# Many-to-many relationship between Servers and Tags
-server_tags = db.Table('server_tags',
-    db.Column('server_id', db.Integer, db.ForeignKey('servers.id'), primary_key=True),
-    db.Column('tag_id', db.Integer, db.ForeignKey('tags.id'), primary_key=True)
-)
-
-# Network Scan Results Model
-class NetworkScanResult(db.Model):
-    __tablename__ = 'network_scan_results'
-
-    id = db.Column(db.Integer, primary_key=True)
-    scan_time = db.Column(db.DateTime, default=datetime.utcnow)
-    total_machines_scanned = db.Column(db.Integer, nullable=False)
-    existing_machines_count = db.Column(db.Integer, nullable=False)
-    new_machines_count = db.Column(db.Integer, nullable=False)
-
-    def __repr__(self):
-        return f'<NetworkScanResult {self.scan_time} - {self.total_machines_scanned} Machines>'
+    @app.errorhandler(500)
+    def internal_server_error(e):
+        return render_template('500.html'), 500
