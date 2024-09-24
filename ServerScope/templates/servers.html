@@ -1,53 +1,33 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}ServerScope{% endblock %}</title>
+{% extends "layout.html" %}
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='content/bootstrap.min.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='content/site.css') }}">
-</head>
-<body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="{{ url_for('main.index') }}">ServerScope</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('main.view_servers') }}">Servers</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('main.scan_network') }}">Scan Network</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('main.view_scan_reports') }}">Scan Reports</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('main.audit_logs') }}">Audit Logs</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('main.about') }}">About</a>
-                </li>
-            </ul>
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link btn btn-light" href="{{ url_for('auth.logout') }}">Logout</a>
-                </li>
-            </ul>
-        </div>
-    </nav>
+{% block title %}Servers{% endblock %}
 
-    <div class="container mt-4">
-        {% block content %}
-        {% endblock %}
-    </div>
-
-    <!-- jQuery and Bootstrap JS -->
-    <script src="{{ url_for('static', filename='scripts/jquery-1.10.2.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='scripts/bootstrap.min.js') }}"></script>
-</body>
-</html>
+{% block content %}
+<div class="container mt-4">
+    <h1>Servers</h1>
+    <table class="table table-striped">
+        <thead> 
+                <th>Server Name</th>
+                <th>IP Address</th>
+                <th>Operating System</th>
+                <th>Last Health Check</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for server in servers %}
+            <tr>
+                <td>{{ server.name }}</td>
+                <td>{{ server.ip_address }}</td>
+                <td>{{ server.os_type }}</td>
+                <td>{{ server.last_health_check or 'N/A' }}</td>
+                <td>
+                    <a href="{{ url_for('main.execute_command', server_id=server.id) }}" class="btn btn-primary btn-sm">Execute Command</a>
+                    <a href="{{ url_for('main.server_health', server_id=server.id) }}" class="btn btn-info btn-sm">Health Check</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

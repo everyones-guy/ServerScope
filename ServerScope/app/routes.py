@@ -4,7 +4,7 @@ from app.models import Server, Job, NetworkScanResult as ScanReport, AuditLog, d
 from app.network_scan_utils import NetworkScanner
 from app.command_utils import CommandExecutor
 from app.logging_utils import LoggingUtils
-from app.auth import role_required, auth as auth_blueprint
+from app.auth import role_required
 from app.nfs_utils import NFSUtils
 from sqlalchemy import create_engine
 from sqlalchemy.exc import OperationalError
@@ -17,20 +17,13 @@ error_logger = logging.getLogger(__name__)
 # Create an instance of LoggingUtils for logging actions
 action_logger = LoggingUtils()
 
+# Define blueprints
 nfs_bp = Blueprint('nfs', __name__)
 main = Blueprint('main', __name__)
-auth = Blueprint('auth', __name__)
 
 @main.route('/')
 def index():
     return render_template('index.html')  # Assuming you have an 'index.html' in your templates folder
-
-@auth.route('/logout')
-@login_required
-def logout():
-    logout_user()
-    flash("You have been logged out.", "success")
-    return redirect(url_for('main.index'))  # Redirect to homepage after logout
 
 @main.route('/about')
 def about():
@@ -53,7 +46,7 @@ def add_server():
         new_server = Server(name=name, ip=ip, os=os)
         db.session.add(new_server)
         db.session.commit()
-        action_logger.log_action(f"Added new server {name} ({ip})", current_user.username)  # Instance method
+        action_logger.log_action(f"Added new server {name} ({ip})", current_user.username)
         flash(f"Server {name} added successfully!", "success")
     except Exception as e:
         error_logger.error(f"Failed to add server {name}: {e}")
@@ -80,7 +73,7 @@ def execute_command(server_id):
             else:
                 output = "Unsupported or unrecognized OS. Please check the server configuration."
 
-            action_logger.log_action(f"Executed command on {server.name} ({server.ip}): {command}", current_user.username)  # Instance method
+            action_logger.log_action(f"Executed command on {server.name} ({server.ip}): {command}", current_user.username)
             flash(f"Command executed on server {server.name}.", "success")
         except Exception as e:
             error_logger.error(f"Error executing command on {server.name}: {e}")
@@ -96,7 +89,7 @@ def scan_network():
     try:
         scanner = NetworkScanner(network_range="192.168.1.0/24")
         new_machines, scan_report = scanner.scan_for_ansible_machines()
-        action_logger.log_action(f"Network scan performed by {current_user.username}", current_user.username)  # Instance method
+        action_logger.log_action(f"Network scan performed by {current_user.username}", current_user.username)
         flash(f"Network scan completed successfully.", "success")
     except Exception as e:
         error_logger.error(f"Error performing network scan: {e}")
@@ -183,7 +176,6 @@ def remove_nfs_share(server_id, share_path):
 
     return redirect(url_for('nfs.list_nfs_shares', server_id=server_id))
 
-# Database setup route
 @main.route('/setup_database', methods=['GET', 'POST'])
 def setup_database():
     if request.method == 'POST':
@@ -212,4 +204,3 @@ def setup_database():
 def splunk_logs():
     # Add logic here for retrieving Splunk logs
     return render_template('splunk_logs.html')  # Ensure you have a 'splunk_logs.html' template
-
