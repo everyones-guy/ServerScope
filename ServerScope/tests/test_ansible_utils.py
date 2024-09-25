@@ -1,11 +1,9 @@
 import unittest
 from unittest.mock import patch, mock_open, MagicMock
-import os
 import yaml
 from app import db
 from app.models import Server
-from import_ansible_data import load_ansible_inventory, import_servers_from_inventory
-
+from migrations.versions.import_ansible_data import load_ansible_inventory, import_servers_from_inventory
 
 class TestAnsibleUtils(unittest.TestCase):
 
