@@ -2,7 +2,7 @@ import os
 from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
-from flask_login import LoginManager
+from flask_login import LoginManager, current_user
 from dotenv import load_dotenv
 
 # Load environment variables from .env file
@@ -26,7 +26,7 @@ def create_app():
 
         if not all([oracle_user, oracle_password, oracle_dsn]):
             raise RuntimeError("Missing Oracle DB configuration. Please set ORACLE_USER, ORACLE_PASSWORD, and ORACLE_DSN.")
-
+        
         app.config['SQLALCHEMY_DATABASE_URI'] = f'oracle+cx_oracle://{oracle_user}:{oracle_password}@{oracle_dsn}'
     else:
         app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///serverscope.db'
@@ -44,6 +44,11 @@ def create_app():
     login_manager.login_message = 'Please log in to access this page.'
     login_manager.login_message_category = 'info'  # Optional: for styling messages
 
+    # Inject `current_user` into all templates
+    @app.context_processor
+    def inject_user():
+        return dict(current_user=current_user)
+
     # Import and register blueprints/routes
     from app.routes import main, nfs_bp
     app.register_blueprint(main)
@@ -57,7 +62,6 @@ def create_app():
     register_error_handlers(app)
 
     return app
-
 
 def register_error_handlers(app):
     """Register custom error handlers for common HTTP errors."""

@@ -13,12 +13,19 @@ def create_app():
     app.config.from_object(config_type)
 
     # Initialize database plugin
-    from app import db
+    from app import db, migrate, login_manager
+
+    # Initialize extensions with app
     db.init_app(app)
+    migrate.init_app(app, db)
+    login_manager.init_app(app)
 
     # Register blueprints
     from app.routes import main as main_blueprint
     app.register_blueprint(main_blueprint)
+
+    from app.auth import auth as auth_blueprint
+    app.register_blueprint(auth_blueprint, url_prefix='/auth')
 
     return app
 
@@ -26,5 +33,9 @@ if __name__ == '__main__':
     # Create an app instance
     app = create_app()
 
-    # Run the app (set debug mode based on environment variable, default to True for development)
-    app.run(host='0.0.0.0', port=int(os.getenv('PORT', 5000)), debug=os.getenv('FLASK_DEBUG', 'True') == 'True')
+    # Set debug mode based on environment variable (default to True for development)
+    debug_mode = os.getenv('FLASK_DEBUG', 'True') == 'True'
+    port = int(os.getenv('PORT', 5000))
+
+    # Run the app on specified host, port, and debug mode
+    app.run(host='0.0.0.0', port=port, debug=debug_mode)
