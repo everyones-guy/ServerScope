@@ -94,6 +94,10 @@ def execute_command(server_id):
 @main.route('/scan_network')
 @login_required
 def scan_network():
+    if current_user.role != 'admin':
+        flash("You do not have permission to perform this action.", "danger")
+        return redirect(url_for('main.index'))
+
     try:
         scanner = NetworkScanner(network_range="192.168.1.0/24")
         new_machines, scan_report = scanner.scan_for_ansible_machines()
@@ -104,6 +108,8 @@ def scan_network():
         flash(f"Network scan failed. Please check logs.", "danger")
 
     return render_template('scan_results.html', new_machines=new_machines, report=scan_report)
+
+
 
 @main.route('/scan_reports')
 @login_required
