@@ -109,8 +109,6 @@ def scan_network():
 
     return render_template('scan_results.html', new_machines=new_machines, report=scan_report)
 
-
-
 @main.route('/scan_reports')
 @login_required
 def view_scan_reports():
@@ -218,3 +216,11 @@ def setup_database():
 def splunk_logs():
     # Add logic here for retrieving Splunk logs
     return render_template('splunk_logs.html')  # Ensure you have a 'splunk_logs.html' template
+
+@main.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    flash("You have been logged out.", "success")
+    return render_template('logout.html')  # Redirect to a logout page if needed
+
