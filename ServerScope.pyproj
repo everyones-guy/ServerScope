@@ -96,6 +96,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ServerScope\app\__init__.py" />
+    <Compile Include="ServerScope\tests\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="ServerScope\views.py" />
     <Compile Include="setup.py">
       <SubType>Code</SubType>
