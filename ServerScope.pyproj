@@ -29,6 +29,9 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="ServerScope\ansible\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="ServerScope\app\ansible_utils.py">
       <SubType>Code</SubType>
     </Compile>
