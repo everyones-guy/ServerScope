@@ -42,6 +42,10 @@ def view_servers():
 @main.route('/add_server', methods=['POST'])
 @login_required
 def add_server():
+    if current_user.role != 'admin':
+        flash("You do not have permission to perform this action.", "danger")
+        return redirect(url_for('main.index'))
+
     name = request.form['name']
     ip = request.form['ip']
     os = request.form['os']
