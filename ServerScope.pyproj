@@ -92,6 +92,9 @@
     <Compile Include="ServerScope\tests\test_models.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ServerScope\tests\test_routes.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="ServerScope\tests\test_scan_report.py">
       <SubType>Code</SubType>
     </Compile>
