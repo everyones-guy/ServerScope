@@ -1,6 +1,8 @@
 
 import os
 from pathlib import Path
+import subprocess
+import sqlite3
 
 # Constants for .env file
 env_content = """
@@ -95,5 +97,32 @@ def setup():
     run_migrations()
     setup_complete()
 
+def setup_dummy_databases():
+    # Set up SQLite databases
+    sqlite_dbs = ['serverscope_dummy.db', 'dev_serverscope.db', 'test_serverscope.db']
+    for db in sqlite_dbs:
+        if not os.path.exists(db):
+            conn = sqlite3.connect(db)
+            print(f"Created SQLite database: {db}")
+            conn.close()
+
+    # Optionally, set up MySQL and PostgreSQL dummy databases using the command line
+    mysql_cmd = 'mysql -u dummy_user -p"dummy_password" -e "CREATE DATABASE IF NOT EXISTS dummy_db;"'
+    postgres_cmd = 'psql -U dummy_user -c "CREATE DATABASE dummy_db;"'
+
+    try:
+        subprocess.run(mysql_cmd, shell=True, check=True)
+        print("MySQL dummy database created successfully.")
+    except subprocess.CalledProcessError:
+        print("Failed to create MySQL database. Ensure MySQL is running and credentials are correct.")
+
+    try:
+        subprocess.run(postgres_cmd, shell=True, check=True)
+        print("PostgreSQL dummy database created successfully.")
+    except subprocess.CalledProcessError:
+        print("Failed to create PostgreSQL database. Ensure PostgreSQL is running and credentials are correct.")
+
+if __name__ == "__main__":
+    setup_dummy_databases()
 if __name__ == '__main__':
     setup()

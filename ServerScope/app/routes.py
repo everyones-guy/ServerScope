@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash, abort
-from flask_login import login_required, current_user, logout_user
-from app.models import Server, Job, NetworkScanResult as ScanReport, AuditLog, db
+from flask_login import login_required, current_user, logout_user, login_user
+from app.models import Server, Job, NetworkScanResult as ScanReport, AuditLog, db, User
 from app.network_scan_utils import NetworkScanner
 from app.command_utils import CommandExecutor
 from app.logging_utils import LoggingUtils
@@ -32,8 +32,12 @@ def about():
 @main.route('/servers')
 @login_required
 def view_servers():
-    servers = Server.query.all()
-    return render_template('servers.html', servers=servers)
+    if current_user.is_authenticated and current_user.role == 'admin':  # Example role check
+        servers = Server.query.all()
+        return render_template('servers.html', servers=servers)
+    else:
+        flash("You do not have permission to view this page.", "danger")
+        return redirect(url_for('main.index'))
 
 @main.route('/add_server', methods=['POST'])
 @login_required
