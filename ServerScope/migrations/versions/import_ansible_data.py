@@ -46,10 +46,21 @@ def import_servers_from_inventory(inventory_data):
                 else:
                     # Create a new server entry
                     new_server = Server(name=host, ip=ip_address, os=os_type)
-                    db.session.add(new_server)
-                    db.session.commit()
-                    imported_servers += 1
-                    print(f"Imported new server '{host}' (IP: {ip_address}, OS: {os_type}).")
+                    try:
+                        db.session.add(new_server)
+                    except Exception as e:
+                        db.session.rollback()
+                        print(f"Error committing server '{host}' to the database: {e}")
+                    else:
+                        imported_servers += 1
+                        print(f"Imported new server '{host}' (IP: {ip_address}, OS: {os_type}).")
+
+    # Commit all new servers in one batch
+    try:
+        db.session.commit()
+    except Exception as e:
+        db.session.rollback()
+        print(f"Error during final commit: {e}")
 
     # Log action for importing servers
     log_action(f"Imported {imported_servers} new servers. {existing_servers} already existed.", "import_ansible_data")
@@ -63,7 +74,7 @@ if __name__ == "__main__":
 
     inventory_file = sys.argv[1]
     print(f"Loading Ansible inventory from '{inventory_file}'...")
-    
+
     inventory_data = load_ansible_inventory(inventory_file)
     if inventory_data:
         import_servers_from_inventory(inventory_data)

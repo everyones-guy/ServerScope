@@ -12,6 +12,30 @@ body {
     padding-right: 15px;
 }
 
+/* Navbar and Tab Navigation */
+.navbar-dark .navbar-nav .nav-link {
+    color: #f8f9fa;
+}
+
+    .navbar-dark .navbar-nav .nav-link:hover {
+        color: #d4d8dd;
+    }
+
+.nav-tabs {
+    border-bottom: 2px solid #dee2e6;
+}
+
+    .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+        background-color: #f8f9fa;
+        border-color: #dee2e6 #dee2e6 #fff;
+        color: #495057;
+    }
+
+    .nav-tabs .nav-link:hover {
+        background-color: #e9ecef;
+        border-color: #e9ecef;
+    }
+
 /* Set width on the form input elements since they're 100% wide by default in Bootstrap */
 input,
 select,
@@ -20,7 +44,6 @@ textarea {
     margin-bottom: 10px;
 }
 
-/* Enhanced form input for large screens (using Bootstrap form-control class) */
 @media (min-width: 768px) {
     input,
     select,
@@ -29,7 +52,7 @@ textarea {
     }
 }
 
-/* Bootstrap enhancements for validation feedback */
+/* Bootstrap validation feedback */
 .field-validation-error {
     color: #b94a48;
     font-weight: bold;
@@ -61,6 +84,7 @@ input[type="checkbox"].input-validation-error {
 .btn-primary {
     background-color: #007bff;
     border-color: #007bff;
+    transition: background-color 0.3s, border-color 0.3s;
 }
 
     .btn-primary:hover {
@@ -71,6 +95,7 @@ input[type="checkbox"].input-validation-error {
 .btn-secondary {
     background-color: #6c757d;
     border-color: #6c757d;
+    transition: background-color 0.3s, border-color 0.3s;
 }
 
     .btn-secondary:hover {
@@ -78,13 +103,20 @@ input[type="checkbox"].input-validation-error {
         border-color: #4e555b;
     }
 
+.btn-group {
+    margin-top: 10px;
+}
+
 /* Custom table styling */
 .table {
     margin-top: 20px;
+    border: 1px solid #dee2e6;
+    background-color: #fff;
 }
 
     .table th {
         background-color: #f8f9fa;
+        border-bottom: 2px solid #dee2e6;
     }
 
 .table-hover tbody tr:hover {
@@ -107,6 +139,15 @@ input[type="checkbox"].input-validation-error {
         background-color: #28a745;
         border-color: #28a745;
     }
+
+/* Tabs */
+.tab-content {
+    padding: 15px;
+    border: 1px solid #dee2e6;
+    border-top: none;
+    background-color: #fff;
+    border-radius: 0 0 0.25rem 0.25rem;
+}
 
 /* Form styling */
 .form-control {
@@ -133,16 +174,7 @@ footer {
             color: #0056b3;
         }
 
-/* Override navbar colors */
-.navbar-dark .navbar-nav .nav-link {
-    color: #f8f9fa;
-}
-
-    .navbar-dark .navbar-nav .nav-link:hover {
-        color: #d4d8dd;
-    }
-
-/* Custom pre block styling for logs and results */
+/* Override pre block styling for logs and results */
 pre {
     background-color: #f8f9fa;
     border: 1px solid #ccc;
