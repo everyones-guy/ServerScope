@@ -163,3 +163,17 @@ node_modules/
 /.vs/slnx.sqlite
 /.vs/*
 .vs/*
+/.vs/ServerScope/v17/.suo
+/.vs/ServerScope/v17/DocumentLayout.json
+/renv/pyvenv.cfg
+/renv/Scripts/activate
+/renv/Scripts/activate.bat
+/renv/Scripts/Activate.ps1
+/renv/Scripts/deactivate.bat
+/renv/Scripts/pip.exe
+/renv/Scripts/pip3.12.exe
+/renv/Scripts/pip3.exe
+/renv/Scripts/python.exe
+/renv/Scripts/pythonw.exe
+/renv/Scripts/pythonw_d.exe
+/renv/Scripts/python_d.exe
