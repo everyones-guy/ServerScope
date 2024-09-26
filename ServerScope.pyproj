@@ -97,6 +97,9 @@
     </Compile>
     <Compile Include="ServerScope\app\__init__.py" />
     <Compile Include="ServerScope\views.py" />
+    <Compile Include="setup.py">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ServerScope\" />
