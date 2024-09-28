@@ -1,0 +1,13 @@
+{% extends "layout.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<div class="jumbotron">
+    <h1 class="display-4">Welcome to ServerScope!</h1>
+    <p class="lead">This is your server management and monitoring solution.</p>
+    <hr class="my-4">
+    <p>Use the navigation bar to explore your servers, run commands, and check logs.</p>
+    <a class="btn btn-primary btn-lg" href="{{ url_for('main.view_servers') }}" role="button">Get Started</a>
+</div>
+{% endblock %}

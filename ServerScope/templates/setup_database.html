@@ -1,0 +1,18 @@
+<h2>Database Setup Required</h2>
+<p>It looks like you don't have an active database connection. Please set up a connection below to store your analysis results.</p>
+
+<form action="{{ url_for('main.setup_database') }}" method="POST">
+    <div class="form-group">
+        <label for="db_type">Database Type</label>
+        <select name="db_type" class="form-control" id="db_type">
+            <option value="sqlite">SQLite</option>
+            <option value="mysql">MySQL</option>
+            <option value="postgresql">PostgreSQL</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="connection_string">Database Connection String</label>
+        <input type="text" name="connection_string" class="form-control" id="connection_string" placeholder="e.g., sqlite:///yourdb.db" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Setup Database</button>
+</form>
