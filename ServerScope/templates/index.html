@@ -4,6 +4,20 @@
 
 {% block content %}
 <div class="jumbotron">
+    <!-- Left side buttons -->
+    <div class="left-buttons">
+        <a class="btn" href="{{ url_for('main.view_servers') }}">Servers</a>
+        <a class="btn" href="{{ url_for('main.scan_network') }}">Scan Network</a>
+        <a class="btn" href="{{ url_for('main.view_scan_reports') }}">Scan Reports</a>
+        <a class="btn" href="{{ url_for('main.audit_logs') }}">Audit Logs</a>
+        <a class="btn" href="{{ url_for('main.about') }}">About</a>
+    </div>
+
+    <!-- Right side login button -->
+    <a class="login-btn" href="{{ url_for('auth.login') }}">Login</a>
+</div>
+
+<div class="container mt-4">
     <h1 class="display-4">Welcome to ServerScope!</h1>
     <p class="lead">This is your server management and monitoring solution.</p>
     <hr class="my-4">
