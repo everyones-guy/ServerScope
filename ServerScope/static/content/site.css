@@ -13,41 +13,39 @@ body {
 }
 
 /* Navbar and Tab Navigation */
+/* Adjusted navbar link colors for better visibility */
 .navbar-dark .navbar-nav .nav-link {
-    color: #f8f9fa;
+    color: white; /* Better contrast with dark background */
 }
 
-    .navbar-dark .navbar-nav .nav-link:hover {
-        color: #d4d8dd;
-    }
+.navbar-dark .navbar-nav .nav-link:hover {
+    color: #cce7ff; /* Light blue on hover for visibility */
+}
 
+/* Tabs styling */
 .nav-tabs {
     border-bottom: 2px solid #dee2e6;
 }
 
-    .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
-        background-color: #f8f9fa;
-        border-color: #dee2e6 #dee2e6 #fff;
-        color: #495057;
-    }
+.nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+    background-color: #f8f9fa;
+    border-color: #dee2e6 #dee2e6 #fff;
+    color: #495057;
+}
 
-    .nav-tabs .nav-link:hover {
-        background-color: #e9ecef;
-        border-color: #e9ecef;
-    }
+.nav-tabs .nav-link:hover {
+    background-color: #e9ecef;
+    border-color: #e9ecef;
+}
 
 /* Set width on the form input elements since they're 100% wide by default in Bootstrap */
-input,
-select,
-textarea {
+input, select, textarea {
     max-width: 280px;
     margin-bottom: 10px;
 }
 
 @media (min-width: 768px) {
-    input,
-    select,
-    textarea {
+    input, select, textarea {
         max-width: 400px;
     }
 }
@@ -81,16 +79,17 @@ input[type="checkbox"].input-validation-error {
 }
 
 /* Button enhancements */
+/* Updated button colors to differentiate from Bootstrap defaults */
 .btn-primary {
-    background-color: #007bff;
-    border-color: #007bff;
+    background-color: #28a745; /* Green for primary button */
+    border-color: #28a745;
     transition: background-color 0.3s, border-color 0.3s;
 }
 
-    .btn-primary:hover {
-        background-color: #0056b3;
-        border-color: #004085;
-    }
+.btn-primary:hover {
+    background-color: #218838; /* Darker green for hover */
+    border-color: #1e7e34;
+}
 
 .btn-secondary {
     background-color: #6c757d;
@@ -98,10 +97,10 @@ input[type="checkbox"].input-validation-error {
     transition: background-color 0.3s, border-color 0.3s;
 }
 
-    .btn-secondary:hover {
-        background-color: #545b62;
-        border-color: #4e555b;
-    }
+.btn-secondary:hover {
+    background-color: #545b62;
+    border-color: #4e555b;
+}
 
 .btn-group {
     margin-top: 10px;
@@ -114,10 +113,10 @@ input[type="checkbox"].input-validation-error {
     background-color: #fff;
 }
 
-    .table th {
-        background-color: #f8f9fa;
-        border-bottom: 2px solid #dee2e6;
-    }
+.table th {
+    background-color: #f8f9fa;
+    border-bottom: 2px solid #dee2e6;
+}
 
 .table-hover tbody tr:hover {
     background-color: #f1f1f1;
@@ -125,20 +124,25 @@ input[type="checkbox"].input-validation-error {
 
 /* Jumbotron custom styles */
 .jumbotron {
-    background-color: #e9ecef;
+    background-color: #e9ecef; /* Keeping light grey for jumbotron */
     padding: 2rem 1rem;
     border-radius: 0.3rem;
 }
 
-    .jumbotron h1 {
-        font-size: 2.5rem;
-        color: #333;
-    }
+.jumbotron h1 {
+    font-size: 2.5rem;
+    color: #333; /* Darker text for better contrast */
+}
 
-    .jumbotron .btn-primary {
-        background-color: #28a745;
-        border-color: #28a745;
-    }
+.jumbotron .btn-primary {
+    background-color: #007bff; /* Ensuring button matches Bootstrap's blue */
+    border-color: #007bff;
+}
+
+.jumbotron .btn-primary:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+    border-color: #004085;
+}
 
 /* Tabs */
 .tab-content {
@@ -166,13 +170,13 @@ footer {
     text-align: center;
 }
 
-    footer a {
-        color: #007bff;
-    }
+footer a {
+    color: #007bff;
+}
 
-        footer a:hover {
-            color: #0056b3;
-        }
+footer a:hover {
+    color: #0056b3;
+}
 
 /* Override pre block styling for logs and results */
 pre {
