@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash, abort
-from flask_login import login_required, current_user, logout_user
-from app.models import Server, Job, NetworkScanResult as ScanReport, AuditLog, db
+from flask_login import login_required, current_user, logout_user, login_user
+from app.models import Server, Job, NetworkScanResult as ScanReport, AuditLog, db, User
 from app.network_scan_utils import NetworkScanner
 from app.command_utils import CommandExecutor
 from app.logging_utils import LoggingUtils
@@ -32,12 +32,20 @@ def about():
 @main.route('/servers')
 @login_required
 def view_servers():
-    servers = Server.query.all()
-    return render_template('servers.html', servers=servers)
+    if current_user.is_authenticated and current_user.role == 'admin':  # Example role check
+        servers = Server.query.all()
+        return render_template('servers.html', servers=servers)
+    else:
+        flash("You do not have permission to view this page.", "danger")
+        return redirect(url_for('main.index'))
 
 @main.route('/add_server', methods=['POST'])
 @login_required
 def add_server():
+    if current_user.role != 'admin':
+        flash("You do not have permission to perform this action.", "danger")
+        return redirect(url_for('main.index'))
+
     name = request.form['name']
     ip = request.form['ip']
     os = request.form['os']
@@ -86,6 +94,10 @@ def execute_command(server_id):
 @main.route('/scan_network')
 @login_required
 def scan_network():
+    if current_user.role != 'admin':
+        flash("You do not have permission to perform this action.", "danger")
+        return redirect(url_for('main.index'))
+
     try:
         scanner = NetworkScanner(network_range="192.168.1.0/24")
         new_machines, scan_report = scanner.scan_for_ansible_machines()
@@ -204,3 +216,11 @@ def setup_database():
 def splunk_logs():
     # Add logic here for retrieving Splunk logs
     return render_template('splunk_logs.html')  # Ensure you have a 'splunk_logs.html' template
+
+@main.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    flash("You have been logged out.", "success")
+    return render_template('logout.html')  # Redirect to a logout page if needed
+

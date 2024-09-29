@@ -17,22 +17,42 @@ def create_app():
     """Factory function to create and configure the Flask app."""
     app = Flask(__name__)
 
-    # Database configuration: Oracle, with fallback to SQLite
-    db_type = os.getenv('DB_TYPE', 'sqlite')
-    if db_type == 'oracle':
-        oracle_user = os.getenv('ORACLE_USER')
-        oracle_password = os.getenv('ORACLE_PASSWORD')
-        oracle_dsn = os.getenv('ORACLE_DSN')  # Oracle Data Source Name
-
-        if not all([oracle_user, oracle_password, oracle_dsn]):
-            raise RuntimeError("Missing Oracle DB configuration. Please set ORACLE_USER, ORACLE_PASSWORD, and ORACLE_DSN.")
-        
-        app.config['SQLALCHEMY_DATABASE_URI'] = f'oracle+cx_oracle://{oracle_user}:{oracle_password}@{oracle_dsn}'
-    else:
-        app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///serverscope.db'
-
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    # General configuration
     app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'mysecretkey')  # For secure session management
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+    # Environment-specific database configurations
+    if app.config['FLASK_ENV'] == 'development':
+        app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DEV_DATABASE_URL', 'sqlite:///dev_serverscope.db')
+    elif app.config['FLASK_ENV'] == 'testing':
+        app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('TEST_DATABASE_URL', 'sqlite:///test_serverscope.db')
+    else:  # Default to production settings
+        # Database configuration: Oracle, MySQL, PostgreSQL, or fallback to SQLite
+        db_type = os.getenv('DB_TYPE', 'sqlite')
+
+        if db_type == 'oracle':
+            oracle_user = os.getenv('ORACLE_USER')
+            oracle_password = os.getenv('ORACLE_PASSWORD')
+            oracle_dsn = os.getenv('ORACLE_DSN')
+
+            if not all([oracle_user, oracle_password, oracle_dsn]):
+                raise RuntimeError("Missing Oracle DB configuration. Please set ORACLE_USER, ORACLE_PASSWORD, and ORACLE_DSN.")
+
+            app.config['SQLALCHEMY_DATABASE_URI'] = f'oracle+cx_oracle://{oracle_user}:{oracle_password}@{oracle_dsn}'
+        elif db_type == 'mysql':
+            mysql_user = os.getenv('MYSQL_USER')
+            mysql_password = os.getenv('MYSQL_PASSWORD')
+            mysql_host = os.getenv('MYSQL_HOST')
+            mysql_db = os.getenv('MYSQL_DB')
+            app.config['SQLALCHEMY_DATABASE_URI'] = f'mysql+pymysql://{mysql_user}:{mysql_password}@{mysql_host}/{mysql_db}'
+        elif db_type == 'postgresql':
+            postgres_user = os.getenv('POSTGRES_USER')
+            postgres_password = os.getenv('POSTGRES_PASSWORD')
+            postgres_host = os.getenv('POSTGRES_HOST')
+            postgres_db = os.getenv('POSTGRES_DB')
+            app.config['SQLALCHEMY_DATABASE_URI'] = f'postgresql://{postgres_user}:{postgres_password}@{postgres_host}/{postgres_db}'
+        else:  # Default to SQLite if no DB_TYPE is provided or unknown DB_TYPE
+            app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///serverscope.db'
 
     # Initialize extensions with app
     db.init_app(app)

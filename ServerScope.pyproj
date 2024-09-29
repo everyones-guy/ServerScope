@@ -29,6 +29,9 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="ServerScope\ansible\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="ServerScope\app\ansible_utils.py">
       <SubType>Code</SubType>
     </Compile>
@@ -92,11 +95,20 @@
     <Compile Include="ServerScope\tests\test_models.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ServerScope\tests\test_routes.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="ServerScope\tests\test_scan_report.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ServerScope\app\__init__.py" />
+    <Compile Include="ServerScope\tests\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="ServerScope\views.py" />
+    <Compile Include="setup.py">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ServerScope\" />
@@ -162,6 +174,7 @@
     <Content Include="ServerScope\templates\index.html" />
     <Content Include="ServerScope\templates\layout.html" />
     <Content Include="ServerScope\templates\login.html" />
+    <Content Include="ServerScope\templates\logout.html" />
     <Content Include="ServerScope\templates\mapping.html" />
     <Content Include="ServerScope\templates\nfs_files.html" />
     <Content Include="ServerScope\templates\scan_reports.html" />
