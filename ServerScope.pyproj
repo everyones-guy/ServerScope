@@ -112,7 +112,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ServerScope\views.py" />
-    <Compile Include="setup.py">
+    <Compile Include="ServerScope\setup.py">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
@@ -124,14 +124,14 @@
     <Folder Include="ServerScope\logs\" />
     <Folder Include="ServerScope\migrations\versions\" />
     <Folder Include="ServerScope\tests\" />
-    <Folder Include="ServerScope\static\" />
-    <Folder Include="ServerScope\static\content\" />
-    <Folder Include="ServerScope\static\fonts\" />
-    <Folder Include="ServerScope\static\scripts\" />
-    <Folder Include="ServerScope\templates\" />
+    <Folder Include="ServerScope\app\static\" />
+    <Folder Include="ServerScope\app\static\content\" />
+    <Folder Include="ServerScope\app\static\fonts\" />
+    <Folder Include="ServerScope\app\static\scripts\" />
+    <Folder Include="ServerScope\app\templates\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="requirements.txt" />
+    <Content Include="ServerScope\requirements.txt" />
     <Content Include="ServerScope\.env" />
     <Content Include="ServerScope\ansible\automated_tests.yaml">
       <SubType>Code</SubType>
@@ -148,54 +148,56 @@
     <Content Include="ServerScope\ansible\veracode_scan.yaml">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="ServerScope\logs\app.log" />
     <Content Include="ServerScope\logs\audit.log" />
-    <Content Include="ServerScope\static\content\bootstrap.css" />
-    <Content Include="ServerScope\static\content\bootstrap.min.css" />
-    <Content Include="ServerScope\static\content\site.css" />
-    <Content Include="ServerScope\static\fonts\glyphicons-halflings-regular.eot" />
-    <Content Include="ServerScope\static\fonts\glyphicons-halflings-regular.svg" />
-    <Content Include="ServerScope\static\fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="ServerScope\static\fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="ServerScope\static\scripts\bootstrap.js" />
-    <Content Include="ServerScope\static\scripts\bootstrap.min.js" />
-    <Content Include="ServerScope\static\scripts\jquery-1.10.2.intellisense.js" />
-    <Content Include="ServerScope\static\scripts\jquery-1.10.2.js" />
-    <Content Include="ServerScope\static\scripts\jquery-1.10.2.min.js" />
-    <Content Include="ServerScope\static\scripts\jquery-1.10.2.min.map" />
-    <Content Include="ServerScope\static\scripts\jquery.validate-vsdoc.js" />
-    <Content Include="ServerScope\static\scripts\jquery.validate.js" />
-    <Content Include="ServerScope\static\scripts\jquery.validate.min.js" />
-    <Content Include="ServerScope\static\scripts\jquery.validate.unobtrusive.js" />
-    <Content Include="ServerScope\static\scripts\jquery.validate.unobtrusive.min.js" />
-    <Content Include="ServerScope\static\scripts\modernizr-2.6.2.js" />
-    <Content Include="ServerScope\static\scripts\respond.js" />
-    <Content Include="ServerScope\static\scripts\respond.min.js" />
-    <Content Include="ServerScope\static\scripts\_references.js" />
-    <Content Include="ServerScope\templates\about.html" />
-    <Content Include="ServerScope\templates\analysis_result.html" />
-    <Content Include="ServerScope\templates\approve_users.html" />
-    <Content Include="ServerScope\templates\audit_logs.html" />
-    <Content Include="ServerScope\templates\command_form.html" />
-    <Content Include="ServerScope\templates\command_result.html" />
-    <Content Include="ServerScope\templates\contact.html" />
-    <Content Include="ServerScope\templates\index.html" />
-    <Content Include="ServerScope\templates\layout.html" />
-    <Content Include="ServerScope\templates\login.html" />
-    <Content Include="ServerScope\templates\logout.html" />
-    <Content Include="ServerScope\templates\mapping.html" />
-    <Content Include="ServerScope\templates\nfs_files.html" />
-    <Content Include="ServerScope\templates\register.html" />
-    <Content Include="ServerScope\templates\scan_reports.html" />
-    <Content Include="ServerScope\templates\scan_results.html">
+    <Content Include="ServerScope\app\static\content\bootstrap.css" />
+    <Content Include="ServerScope\app\static\content\bootstrap.min.css" />
+    <Content Include="ServerScope\app\static\content\site.css" />
+    <Content Include="ServerScope\app\static\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="ServerScope\app\static\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="ServerScope\app\static\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="ServerScope\app\static\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="ServerScope\app\static\scripts\bootstrap.js" />
+    <Content Include="ServerScope\app\static\scripts\bootstrap.min.js" />
+    <Content Include="ServerScope\app\static\scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="ServerScope\app\static\scripts\jquery-1.10.2.js" />
+    <Content Include="ServerScope\app\static\scripts\jquery-1.10.2.min.js" />
+    <Content Include="ServerScope\app\static\scripts\jquery-1.10.2.min.map" />
+    <Content Include="ServerScope\app\static\scripts\jquery.validate-vsdoc.js" />
+    <Content Include="ServerScope\app\static\scripts\jquery.validate.js" />
+    <Content Include="ServerScope\app\static\scripts\jquery.validate.min.js" />
+    <Content Include="ServerScope\app\static\scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="ServerScope\app\static\scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="ServerScope\app\static\scripts\modernizr-2.6.2.js" />
+    <Content Include="ServerScope\app\static\scripts\respond.js" />
+    <Content Include="ServerScope\app\static\scripts\respond.min.js" />
+    <Content Include="ServerScope\app\static\scripts\_references.js" />
+    <Content Include="ServerScope\app\templates\about.html" />
+    <Content Include="ServerScope\app\templates\analysis_result.html" />
+    <Content Include="ServerScope\app\templates\approve_users.html" />
+    <Content Include="ServerScope\app\templates\audit_logs.html" />
+    <Content Include="ServerScope\app\templates\command_form.html" />
+    <Content Include="ServerScope\app\templates\command_result.html" />
+    <Content Include="ServerScope\app\templates\contact.html" />
+    <Content Include="ServerScope\app\templates\index.html" />
+    <Content Include="ServerScope\app\templates\layout.html" />
+    <Content Include="ServerScope\app\templates\login.html" />
+    <Content Include="ServerScope\app\templates\logout.html" />
+    <Content Include="ServerScope\app\templates\mapping.html" />
+    <Content Include="ServerScope\app\templates\nfs_files.html" />
+    <Content Include="ServerScope\app\templates\register.html" />
+    <Content Include="ServerScope\app\templates\scan_reports.html" />
+    <Content Include="ServerScope\app\templates\scan_results.html">
       <SubType>Code</SubType>
     </Content>
-    <Content Include="ServerScope\templates\servers.html">
+    <Content Include="ServerScope\app\templates\servers.html">
       <SubType>Code</SubType>
     </Content>
-    <Content Include="ServerScope\templates\server_health.html" />
-    <Content Include="ServerScope\templates\setup_database.html" />
-    <Content Include="ServerScope\templates\splunk_config.html" />
-    <Content Include="ServerScope\templates\splunk_logs.html" />
+    <Content Include="ServerScope\app\templates\server_health.html" />
+    <Content Include="ServerScope\app\templates\setup_database.html" />
+    <Content Include="ServerScope\app\templates\splunk_config.html" />
+    <Content Include="ServerScope\app\templates\splunk_logs.html" />
+    <Content Include="ServerScope\logs\network_scan.log" />
   </ItemGroup>
   <ItemGroup>
     <Interpreter Include="venv\">
