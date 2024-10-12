@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<h2>Pending Users</h2>
+<ul>
+    {% for user in users %}
+    <li>
+        {{ user.username }} ({{ user.email }})
+        <a href="{{ url_for('auth.approve_user', user_id=user.id) }}" class="btn btn-success">Approve</a>
+    </li>
+    {% else %}
+    <p>No pending users.</p>
+    {% endfor %}
+</ul>
+{% endblock %}

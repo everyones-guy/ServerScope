@@ -8,7 +8,7 @@ import sqlite3
 env_content = """
 # Flask settings
 FLASK_APP=run.py
-FLASK_ENV=development
+FLASK_ENV=production
 FLASK_DEBUG=True
 
 # Secret key for session management, CSRF protection, etc.

@@ -62,10 +62,16 @@
     <Compile Include="ServerScope\app\notification_utils.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ServerScope\app\notify.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="ServerScope\app\routes.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ServerScope\config.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ServerScope\create_superadmin.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ServerScope\run.py">
@@ -167,6 +173,7 @@
     <Content Include="ServerScope\static\scripts\_references.js" />
     <Content Include="ServerScope\templates\about.html" />
     <Content Include="ServerScope\templates\analysis_result.html" />
+    <Content Include="ServerScope\templates\approve_users.html" />
     <Content Include="ServerScope\templates\audit_logs.html" />
     <Content Include="ServerScope\templates\command_form.html" />
     <Content Include="ServerScope\templates\command_result.html" />
@@ -177,6 +184,7 @@
     <Content Include="ServerScope\templates\logout.html" />
     <Content Include="ServerScope\templates\mapping.html" />
     <Content Include="ServerScope\templates\nfs_files.html" />
+    <Content Include="ServerScope\templates\register.html" />
     <Content Include="ServerScope\templates\scan_reports.html" />
     <Content Include="ServerScope\templates\scan_results.html">
       <SubType>Code</SubType>

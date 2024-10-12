@@ -223,4 +223,3 @@ def logout():
     logout_user()
     flash("You have been logged out.", "success")
     return render_template('logout.html')  # Redirect to a logout page if needed
-

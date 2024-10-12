@@ -1,3 +1,4 @@
+# __init__.py(app): Initialize the Flask app and extensions4
 import os
 from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
