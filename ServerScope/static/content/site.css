@@ -1,0 +1,111 @@
+/* General body styling */
+body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+    background: linear-gradient(to bottom, #1e3a5f, #3f5579); /* Faded navy gradient */
+    font-family: Arial, sans-serif;
+}
+
+/* Large title styling */
+h1.display-4 {
+    font-size: 3.5rem;
+    color: #012169; /* Saturated navy blue */
+    text-align: center;
+    font-weight: bold;
+}
+
+/* Button styling */
+.button-game-style {
+    display: inline-block;
+    padding: 15px 30px;
+    font-size: 1.2rem;
+    color: #ffffff;
+    background: linear-gradient(to bottom right, #8b0000, #4b2c2c); /* Tattered red gradient */
+    text-transform: uppercase;
+    border: none;
+    border-radius: 50px;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+    /* Hover effect */
+    .button-game-style:hover {
+        transform: scale(1.1);
+        box-shadow: 0 12px 25px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Coin and Bill explosion effect */
+    .button-game-style .coin,
+    .button-game-style .bill {
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        background: gold; /* For coin */
+        border-radius: 50%;
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.5);
+        animation: explode 1.5s ease-out forwards;
+    }
+
+    /* Bill styling */
+    .button-game-style .bill {
+        width: 40px;
+        height: 20px;
+        background: green; /* For bill */
+        animation-delay: 0.2s;
+    }
+
+/* Keyframe for explosion */
+@keyframes explode {
+    0% {
+        transform: translate(0, 0) scale(0.5);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translate(calc(100px - 200px * (random(1) - 0.5)), calc(100px - 200px * (random(1) - 0.5))) scale(1);
+        opacity: 0;
+    }
+}
+
+/* Random movement for coins and bills */
+@keyframes coinFall {
+    from {
+        transform: translateY(0);
+        opacity: 1;
+    }
+
+    to {
+        transform: translateY(300px);
+        opacity: 0;
+    }
+}
+
+
+.coin {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: gold;
+    animation: coinFall 2s linear infinite;
+}
+
+.bill {
+    position: absolute;
+    width: 40px;
+    height: 20px;
+    background-color: green;
+    animation: coinFall 3s linear infinite;
+}
+
+/* Centering buttons horizontally */
+.main-buttons {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    margin-top: 30px;
+}

@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+
+{% block title %}Scan Reports{% endblock %}
+
+{% block content %}
+<h1>Past Scan Reports</h1>
+
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>Scan Time</th>
+            <th>Total Machines Scanned</th>
+            <th>Existing Machines</th>
+            <th>New Machines</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for report in scan_reports %}
+        <tr>
+            <td>{{ report.scan_time }}</td>
+            <td>{{ report.total_machines_scanned }}</td>
+            <td>{{ report.existing_machines_count }}</td>
+            <td>{{ report.new_machines_count }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<a href="{{ url_for('main.view_servers') }}" class="btn btn-secondary">Back to Server List</a>
+{% endblock %}

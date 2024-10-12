@@ -1,0 +1,33 @@
+{% extends "layout.html" %}
+
+{% block title %}Servers{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>Servers</h1>
+    <table class="table table-striped">
+        <thead> 
+                <th>Server Name</th>
+                <th>IP Address</th>
+                <th>Operating System</th>
+                <th>Last Health Check</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for server in servers %}
+            <tr>
+                <td>{{ server.name }}</td>
+                <td>{{ server.ip_address }}</td>
+                <td>{{ server.os_type }}</td>
+                <td>{{ server.last_health_check or 'N/A' }}</td>
+                <td>
+                    <a href="{{ url_for('main.execute_command', server_id=server.id) }}" class="btn btn-primary btn-sm">Execute Command</a>
+                    <a href="{{ url_for('main.server_health', server_id=server.id) }}" class="btn btn-info btn-sm">Health Check</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

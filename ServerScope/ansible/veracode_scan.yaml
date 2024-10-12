@@ -1,0 +1,52 @@
+---
+- name: Run Veracode security scan on the application
+  hosts: "{{ server }}"
+  become: yes
+  vars:
+    app_name: "{{ app_name }}"  # Veracode Application Name
+    build_name: "{{ build_name }}"  # Veracode Build Name
+    file_path: "/opt/job_repo/app_source.zip"  # The file you want to upload and scan
+    veracode_api_id: "{{ veracode_api_id }}"  # Your Veracode API ID
+    veracode_api_key: "{{ veracode_api_key }}"  # Your Veracode API Key
+
+  tasks:
+    - name: Ensure Veracode CLI is installed
+      shell: |
+        if ! command -v veracode &> /dev/null; then
+          echo "Veracode CLI not found, installing..."
+          wget https://downloads.veracode.com/securityscan/veracode-cli.zip -O /tmp/veracode-cli.zip
+          unzip /tmp/veracode-cli.zip -d /opt/veracode
+          export PATH=$PATH:/opt/veracode
+        fi
+
+    - name: Verify Veracode CLI installation
+      command: veracode --version
+      register: veracode_version
+
+    - name: Display Veracode CLI version
+      debug:
+        var: veracode_version.stdout
+
+    - name: Prepare source code for Veracode scanning (Optional step if source code needs to be zipped)
+      shell: "zip -r {{ file_path }} /opt/job_repo"
+      args:
+        creates: "{{ file_path }}"
+
+    - name: Run Veracode security scan using the CLI
+      shell: |
+        veracode --pipeline-scan \
+          --appname "{{ app_name }}" \
+          --buildname "{{ build_name }}" \
+          --filepath "{{ file_path }}" \
+          --veracode_api_id "{{ veracode_api_id }}" \
+          --veracode_api_key "{{ veracode_api_key }}"
+      register: veracode_scan_result
+
+    - name: Display Veracode scan results
+      debug:
+        var: veracode_scan_result.stdout
+
+    - name: Fail the playbook if Veracode scan fails
+      fail:
+        msg: "Veracode scan failed. Please check the logs."
+      when: veracode_scan_result.rc != 0

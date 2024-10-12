@@ -1,0 +1,35 @@
+{% extends "layout.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<!-- Main title at the top -->
+<h1 class="display-4">Welcome to ServerScope!</h1>
+
+<!-- Description of the app -->
+<p class="lead text-center">This is your server management and monitoring solution.</p>
+<hr class="my-4">
+<p class="text-center">Use the navigation bar to explore your servers, run commands, and check logs.</p>
+
+<!-- Button section -->
+<div class="main-buttons">
+    <a class="button-game-style" href="{{ url_for('main.view_servers') }}">
+        Servers <span class="coin"></span> <span class="bill"></span>
+    </a>
+    <a class="button-game-style" href="{{ url_for('main.scan_network') }}">
+        Scan Network <span class="coin"></span> <span class="bill"></span>
+    </a>
+    <a class="button-game-style" href="{{ url_for('main.view_scan_reports') }}">
+        Scan Reports <span class="coin"></span> <span class="bill"></span>
+    </a>
+    <a class="button-game-style" href="{{ url_for('main.audit_logs') }}">
+        Audit Logs <span class="coin"></span> <span class="bill"></span>
+    </a>
+    <a class="button-game-style" href="{{ url_for('main.about') }}">
+        About <span class="coin"></span> <span class="bill"></span>
+    </a>
+    <a class="button-game-style" href="{{ url_for('auth.login') }}">
+        Login <span class="coin"></span> <span class="bill"></span>
+    </a>
+</div>
+{% endblock %}
