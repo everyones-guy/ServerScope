@@ -9,7 +9,7 @@ from dotenv import load_dotenv
 # Load environment variables from .env file
 load_dotenv()
 
-# Initialize extensions globally
+# Initialize extensions globally, but don't bind them to the app yet
 db = SQLAlchemy()
 migrate = Migrate()
 login_manager = LoginManager()
@@ -23,9 +23,9 @@ def create_app():
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
     # Environment-specific database configurations
-    if app.config['FLASK_ENV'] == 'development':
+    if app.config.get('FLASK_ENV') == 'development':
         app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DEV_DATABASE_URL', 'sqlite:///dev_serverscope.db')
-    elif app.config['FLASK_ENV'] == 'testing':
+    elif app.config.get('FLASK_ENV') == 'testing':
         app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('TEST_DATABASE_URL', 'sqlite:///test_serverscope.db')
     else:  # Default to production settings
         # Database configuration: Oracle, MySQL, PostgreSQL, or fallback to SQLite
@@ -93,3 +93,4 @@ def register_error_handlers(app):
     @app.errorhandler(500)
     def internal_server_error(e):
         return render_template('500.html'), 500
+
