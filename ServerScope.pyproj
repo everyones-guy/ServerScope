@@ -83,9 +83,6 @@
     <Compile Include="ServerScope\app\splunk_utils.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ServerScope\migrations\versions\import_ansible_data.py">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="ServerScope\tests\test_ansible_utils.py">
       <SubType>Code</SubType>
     </Compile>
@@ -120,9 +117,7 @@
     <Folder Include="ServerScope\" />
     <Folder Include="ServerScope\ansible\" />
     <Folder Include="ServerScope\app\" />
-    <Folder Include="ServerScope\migrations\" />
     <Folder Include="ServerScope\logs\" />
-    <Folder Include="ServerScope\migrations\versions\" />
     <Folder Include="ServerScope\tests\" />
     <Folder Include="ServerScope\app\static\" />
     <Folder Include="ServerScope\app\static\content\" />
