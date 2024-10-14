@@ -6,8 +6,8 @@
     <title>{% block title %}Home{% endblock %}</title>
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='content/bootstrap.min.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='content/site.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='/static/content/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='/static/content/site.css') }}">
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -17,22 +17,23 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('main.view_servers') }}">Servers</a>
+                <li class="nav-item mx-2">
+                    <a class="nav-link" href="/servers">Servers</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('main.scan_network') }}">Scan Network</a>
+                <li class="nav-item mx-2">
+                    <a class="nav-link" href="/scan_network">Scan Network</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('main.view_scan_reports') }}">Scan Reports</a>
+                <li class="nav-item mx-2">
+                    <a class="nav-link" href="/scan_reports">Scan Reports</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('main.audit_logs') }}">Audit Logs</a>
+                <li class="nav-item mx-2">
+                    <a class="nav-link" href="/audit_logs">Audit Logs</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('main.about') }}">About</a>
+                <li class="nav-item mx-2">
+                    <a class="nav-link" href="/about">About</a>
                 </li>
             </ul>
+
             <ul class="navbar-nav ml-auto">
                 {% if current_user.is_authenticated %}
                 <li class="nav-item">
@@ -42,8 +43,8 @@
                     <a class="nav-link btn btn-light" href="{{ url_for('auth.logout') }}">Logout</a>
                 </li>
                 {% else %}
-                <li class="nav-item">
-                    <a class="nav-link btn btn-light" href="{{ url_for('auth.login') }}">Login</a>
+                <li class="nav-item mx-2">
+                    <a class="nav-link btn btn-light" href="/auth/login">Login</a>
                 </li>
                 {% endif %}
             </ul>
