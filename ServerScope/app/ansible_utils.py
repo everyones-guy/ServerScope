@@ -1,24 +1,17 @@
 
 import os
 import subprocess
-import logging
 from app.logging_utils import LoggingUtils
 
 class AnsibleUtils:
     def __init__(self, inventory_path=None):
         self.inventory_path = inventory_path or os.getenv('ANSIBLE_INVENTORY', '/etc/ansible/hosts')
-        self.logger = LoggingUtils()
+        self.logger = LoggingUtils()  # Instantiate LoggingUtils
         
     def run_playbook(self, playbook_path, extra_vars=None):
-        """
-        Run an Ansible playbook with optional extra variables.
-        
-        :param playbook_path: The path to the Ansible playbook file.
-        :param extra_vars: A dictionary of extra variables to pass to the playbook (optional).
-        :return: stdout and stderr from the Ansible playbook execution.
-        """
+        """Run an Ansible playbook with optional extra variables."""
         if not os.path.exists(playbook_path):
-            self.logger.log_action(f"Playbook not found: {playbook_path}", "ERROR")
+            self.logger.log_action(f"Playbook not found: {playbook_path}", "system")
             raise FileNotFoundError(f"Playbook file '{playbook_path}' does not exist.")
         
         command = ['ansible-playbook', playbook_path, '-i', self.inventory_path]
@@ -29,14 +22,15 @@ class AnsibleUtils:
             command.extend(['--extra-vars', extra_vars_str])
         
         try:
-            self.logger.log_action(f"Running Ansible playbook: {playbook_path}", "INFO")
+            self.logger.log_action(f"Running Ansible playbook: {playbook_path}", "system")
             result = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, check=True)
-            self.logger.log_action(f"Playbook {playbook_path} executed successfully", "INFO")
+            self.logger.log_action(f"Playbook {playbook_path} executed successfully", "system")
             return result.stdout, result.stderr
         
         except subprocess.CalledProcessError as e:
-            self.logger.log_action(f"Ansible playbook {playbook_path} failed: {e.stderr}", "ERROR")
+            self.logger.log_action(f"Ansible playbook {playbook_path} failed: {e.stderr}", "system")
             raise Exception(f"Failed to execute playbook '{playbook_path}': {e.stderr}")
+
 
     def ping_inventory(self):
         """
