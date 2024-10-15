@@ -61,17 +61,32 @@ class RegistrationForm(FlaskForm):
     confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')])
     submit = SubmitField('Register')
 
-@auth.route("/register", methods=['GET', 'POST'])
+@auth.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegistrationForm()
+
     if form.validate_on_submit():
-        # Assuming you have a User model with an 'approved' field to mark pending approval
-        user = User(username=form.username.data, email=form.email.data, password=form.password.data, approved=False)
-        db.session.add(user)
+        username = form.username.data
+        email = form.email.data
+        password = form.password.data
+
+        # Check if email already exists
+        user = User.query.filter_by(email=email).first()
+        if user:
+            flash('Email address already exists.', 'danger')
+            return redirect(url_for('auth.register'))
+
+        # Hash the password and create a new user
+        hashed_password = generate_password_hash(password, method='scrypt')
+        new_user = User(username=username, email=email, password_hash=hashed_password)
+
+        db.session.add(new_user)
         db.session.commit()
-        flash('Your account has been created and is awaiting approval.', 'success')
+
+        flash('Registration successful! You can now log in.', 'success')
         return redirect(url_for('auth.login'))
-    return render_template('register.html', title='Register', form=form)
+
+    return render_template('register.html', form=form)
 
 # Route to view pending users, accessible only to super admins
 @auth.route("/admin/approve_users")

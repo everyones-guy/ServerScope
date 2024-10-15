@@ -109,3 +109,15 @@ h1.display-4 {
     flex-wrap: wrap;
     margin-top: 30px;
 }
+
+.navbar-nav .nav-item {
+    padding-right: 15px;
+}
+
+.navbar-nav .nav-link {
+    color: white !important;
+}
+
+.navbar-brand img {
+    display: none;
+}

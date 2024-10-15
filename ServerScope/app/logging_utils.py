@@ -1,9 +1,9 @@
-# logging_utils.py
-
+import os
+import yaml
 import logging
 from logging.handlers import RotatingFileHandler
 from datetime import datetime
-from app.models import AuditLog, db
+from app.models import Server, AuditLog, db
 
 class LoggingUtils:
     def __init__(self, log_file="app.log", log_level=logging.INFO, max_size=1000000, backup_count=5):
@@ -97,3 +97,6 @@ class LoggingUtils:
         - message: Additional details about the event.
         """
         self.logger.info(f"System Event: {event_type} - {message}")
+
+# Initialize the logger after the class definition
+logger = LoggingUtils()

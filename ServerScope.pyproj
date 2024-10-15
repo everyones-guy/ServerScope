@@ -44,6 +44,9 @@
     <Compile Include="ServerScope\app\command_utils.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ServerScope\app\forms.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="ServerScope\app\git_utils.py">
       <SubType>Code</SubType>
     </Compile>
