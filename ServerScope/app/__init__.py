@@ -5,6 +5,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager, current_user
 from dotenv import load_dotenv
+from app.config import DevelopmentConfig, TestingConfig, ProductionConfig, StagingConfig
 
 # Load environment variables from .env file
 load_dotenv()
@@ -23,11 +24,18 @@ def create_app():
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
     # Environment-specific database configurations
-    if app.config.get('FLASK_ENV') == 'development':
-        app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DEV_DATABASE_URL', 'sqlite:///dev_serverscope.db')
-    elif app.config.get('FLASK_ENV') == 'testing':
-        app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('TEST_DATABASE_URL', 'sqlite:///test_serverscope.db')
-    else:  # Default to production settings
+  # Determine the environment and apply the appropriate configuration
+    env = os.getenv('FLASK_ENV', 'development')
+    if env == 'development':
+        app.config.from_object(DevelopmentConfig)
+    elif env == 'testing':
+        app.config.from_object(TestingConfig)
+    elif env == 'staging':
+        app.config.from_object(StagingConfig)
+    elif env == 'production':
+        app.config.from_object(ProductionConfig)
+    else:
+        app.config.from_object(DevelopmentConfig)  # Fallback to development
         # Database configuration: Oracle, MySQL, PostgreSQL, or fallback to SQLite
         db_type = os.getenv('DB_TYPE', 'sqlite')
 

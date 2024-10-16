@@ -71,7 +71,7 @@
     <Compile Include="ServerScope\app\routes.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ServerScope\config.py">
+    <Compile Include="ServerScope\app\config.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ServerScope\create_superadmin.py">
@@ -111,6 +111,9 @@
     <Compile Include="ServerScope\tests\__init__.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ServerScope\app\utils\import_ansible_data.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="ServerScope\views.py" />
     <Compile Include="ServerScope\setup.py">
       <SubType>Code</SubType>
@@ -120,13 +123,14 @@
     <Folder Include="ServerScope\" />
     <Folder Include="ServerScope\ansible\" />
     <Folder Include="ServerScope\app\" />
+    <Folder Include="ServerScope\app\utils\" />
     <Folder Include="ServerScope\static\" />
     <Folder Include="ServerScope\static\content\" />
     <Folder Include="ServerScope\logs\" />
     <Folder Include="ServerScope\tests\" />
     <Folder Include="ServerScope\static\fonts\" />
     <Folder Include="ServerScope\static\scripts\" />
-    <Folder Include="ServerScope\templates\" />
+    <Folder Include="ServerScope\app\templates\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="ServerScope\requirements.txt" />
@@ -170,7 +174,7 @@
     <Content Include="ServerScope\static\scripts\respond.js" />
     <Content Include="ServerScope\static\scripts\respond.min.js" />
     <Content Include="ServerScope\static\scripts\_references.js" />
-    <Content Include="ServerScope\templates\about.html" />
+    <Content Include="ServerScope\app\templates\about.html" />
     <Content Include="ServerScope\templates\analysis_result.html" />
     <Content Include="ServerScope\templates\approve_users.html" />
     <Content Include="ServerScope\templates\audit_logs.html" />
